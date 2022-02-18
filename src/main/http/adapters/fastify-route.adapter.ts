@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-import { DomainException } from '@core/domain/exceptions/domain-exception';
-import { HttpException } from '@core/presentation/exceptions/http.exception';
-import { getHttpExceptionCodeFromDomainException } from '@core/presentation/helpers/http-helpers';
-import { Controller } from '@core/presentation/protocols/controller';
-import { HttpRequest } from '@core/presentation/protocols/http';
+import { DomainException } from '@domain/exceptions/domain-exception';
+import { HttpException } from '@presentation/http/exceptions/http.exception';
+import { getHttpExceptionCodeFromDomainException } from '@presentation/http/helpers/http-helpers';
+import { Controller } from '@presentation/http/protocols/controller';
+import { HttpRequest } from '@presentation/http/protocols/http';
 
 export const adaptFastifyRoute = (controller: Controller) => {
   return async (req: FastifyRequest, reply: FastifyReply) => {
