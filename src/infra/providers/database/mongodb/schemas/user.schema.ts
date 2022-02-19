@@ -1,8 +1,8 @@
-import mongoose, { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 import { User } from '@domain/entities/user';
 
-export type UserDocument = User & Document;
+export type UserDocument = User & mongoose.Document;
 
 export const UserSchema = new mongoose.Schema({
   firstName: String,

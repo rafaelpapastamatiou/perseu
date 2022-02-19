@@ -1,5 +1,5 @@
 import { FastifyPluginCallback } from 'fastify';
-import mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
 export const mongooseConnector: FastifyPluginCallback = (
   _fastify,

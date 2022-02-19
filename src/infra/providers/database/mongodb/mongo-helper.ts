@@ -4,10 +4,12 @@ import { Entity } from '@domain/entities/entity';
 
 export const MongoHelper = {
   mapToClass: <T extends Entity>(doc: Document<T>): T => {
-    const { _id, ...rest } = doc.toObject();
+    if (!doc) return undefined;
+
+    const { _id, __v, ...rest } = doc.toObject();
 
     return {
-      id: _id,
+      id: _id.toString(),
       ...rest,
     } as T;
   },
