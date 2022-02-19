@@ -11,23 +11,31 @@ export class MongoUsersRepository implements UsersRepository {
   async findById(id: string): Promise<User> {
     const user = await this.userModel.findOne(new Types.ObjectId(id));
 
-    if (!user) {
-      throw new Error('Usuário não encontrado.');
-    }
-
     return MongoHelper.mapToClass<User>(user);
   }
 
   async findByEmail(email: string): Promise<User> {
-    throw new Error('Method not implemented.');
+    const user = await this.userModel.findOne({
+      email,
+    });
+
+    return MongoHelper.mapToClass<User>(user);
   }
 
   async findByUsername(username: string): Promise<User> {
-    throw new Error('Method not implemented.');
+    const user = await this.userModel.findOne({
+      username,
+    });
+
+    return MongoHelper.mapToClass<User>(user);
   }
 
   async findByUsernameOrEmail(usernameOrEmail: string): Promise<User> {
-    throw new Error('Method not implemented.');
+    const user = await this.userModel.findOne({
+      $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+    });
+
+    return MongoHelper.mapToClass<User>(user);
   }
 
   async add(user: User): Promise<User> {
@@ -35,12 +43,12 @@ export class MongoUsersRepository implements UsersRepository {
       MongoHelper.mapToDocument<UserDocument>(user),
     );
 
-    if (!userDocument) throw new Error('Erro ao salvar usuário.');
-
     return MongoHelper.mapToClass<User>(userDocument);
   }
 
   async generateId(): Promise<string> {
-    return new Types.ObjectId().toString();
+    const id = new Types.ObjectId();
+
+    return id.toString();
   }
 }
