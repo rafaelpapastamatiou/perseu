@@ -6,18 +6,8 @@ import {
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 import { UsersRepository } from '@application/providers/repositories/users.repository';
 import { Authenticate } from '@application/useCases/authenticate';
-import { CreateUserPayload, User } from '@domain/entities/user';
-
-const fakeUserId = 'fake-user-id';
-const fakeUserData: CreateUserPayload = {
-  email: 'fakeuser@email.com',
-  firstName: 'fake',
-  lastName: 'user',
-  username: 'fakeuser',
-  password: '123456',
-};
-
-const fakeUser = User.create(fakeUserId, fakeUserData);
+import { User } from '@domain/entities/user';
+import { mockedUser, mockedUserId } from '@tests/domain/mocks/user.mock';
 
 const makeUsersRepositoryStub = (): UsersRepository => {
   class UsersRepositoryStub implements UsersRepository {
@@ -34,7 +24,7 @@ const makeUsersRepositoryStub = (): UsersRepository => {
     }
 
     async findByUsernameOrEmail(): Promise<User> {
-      return fakeUser;
+      return mockedUser;
     }
 
     async add(user: User): Promise<User> {
@@ -42,7 +32,7 @@ const makeUsersRepositoryStub = (): UsersRepository => {
     }
 
     async generateId(): Promise<string> {
-      return fakeUserId;
+      return mockedUserId;
     }
   }
 
@@ -67,8 +57,8 @@ const makeJwtStub = (): JsonWebToken => {
 
     async verify(): Promise<false | JsonWebTokenPayload> {
       return {
-        userId: fakeUserId,
-        ...fakeUserData,
+        userId: mockedUser.id,
+        ...mockedUser,
       };
     }
   }
@@ -96,12 +86,12 @@ describe('Authenticate', () => {
     const { sut } = makeSut();
 
     const result = await sut.execute({
-      usernameOrEmail: 'fakeuser',
-      password: '123456',
+      usernameOrEmail: mockedUser.username,
+      password: mockedUser.password,
     });
 
     expect(result.accessToken).toBe('fake-token');
-    expect(result.user).toEqual(fakeUser);
+    expect(result.user).toEqual(mockedUser);
   });
 
   it('should not be able to authenticate with invalid username/email', async () => {

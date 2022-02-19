@@ -3,17 +3,12 @@ import { EmailAlreadyInUseException } from '@application/exceptions/email-alread
 import { UsernameAlreadyInUseException } from '@application/exceptions/username-already-in-use.exception';
 import { UsersRepository } from '@application/providers/repositories/users.repository';
 import { AddUser } from '@application/useCases/add-user';
-import { CreateUserPayload, User } from '@domain/entities/user';
-
-const fakeUserId = 'fake-user-id';
-
-const fakeUserData: CreateUserPayload = {
-  firstName: 'fake',
-  lastName: 'user',
-  email: 'fakeuser@email.com',
-  password: '123456',
-  username: 'fakeuser',
-};
+import { User } from '@domain/entities/user';
+import {
+  mockedUser,
+  mockedUserData,
+  mockedUserId,
+} from '@tests/domain/mocks/user.mock';
 
 const makeUsersRepositoryStub = (): UsersRepository => {
   class UsersRepositoryStub implements UsersRepository {
@@ -37,7 +32,7 @@ const makeUsersRepositoryStub = (): UsersRepository => {
     }
 
     async generateId(): Promise<string> {
-      return fakeUserId;
+      return mockedUserId;
     }
   }
 
@@ -69,25 +64,21 @@ describe('CreateUser', () => {
 
     const usersRepositoryAddUserSpy = jest.spyOn(usersRepositoryStub, 'add');
 
-    const user = await sut.execute(fakeUserData);
+    const user = await sut.execute(mockedUserData);
 
-    const expectedResult = User.create(fakeUserId, fakeUserData);
+    expect(usersRepositoryAddUserSpy).toHaveBeenCalledWith(mockedUser);
 
-    expect(usersRepositoryAddUserSpy).toHaveBeenCalledWith(expectedResult);
-
-    expect(user).toEqual(expectedResult);
+    expect(user).toEqual(mockedUser);
   });
 
   it('should not be able to create a new User with an already used e-mail', async () => {
     const { sut, usersRepositoryStub } = makeSut();
 
-    const fakeUser = User.create(fakeUserId, fakeUserData);
-
     jest
       .spyOn(usersRepositoryStub, 'findByEmail')
-      .mockResolvedValueOnce(fakeUser);
+      .mockResolvedValueOnce(mockedUser);
 
-    expect(sut.execute(fakeUserData)).rejects.toThrow(
+    expect(sut.execute(mockedUserData)).rejects.toThrow(
       EmailAlreadyInUseException,
     );
   });
@@ -95,13 +86,11 @@ describe('CreateUser', () => {
   it('should not be able to create a new User with an already used username', async () => {
     const { sut, usersRepositoryStub } = makeSut();
 
-    const fakeUser = User.create(fakeUserId, fakeUserData);
-
     jest
       .spyOn(usersRepositoryStub, 'findByUsername')
-      .mockResolvedValueOnce(fakeUser);
+      .mockResolvedValueOnce(mockedUser);
 
-    expect(sut.execute(fakeUserData)).rejects.toThrow(
+    expect(sut.execute(mockedUserData)).rejects.toThrow(
       UsernameAlreadyInUseException,
     );
   });
@@ -113,6 +102,6 @@ describe('CreateUser', () => {
       throw new Error();
     });
 
-    expect(sut.execute(fakeUserData)).rejects.toThrow();
+    expect(sut.execute(mockedUserData)).rejects.toThrow();
   });
 });
