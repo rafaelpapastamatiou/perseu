@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 import { Comparer } from '@application/providers/crypto/comparer';
 import { Hasher } from '@application/providers/crypto/hasher';
