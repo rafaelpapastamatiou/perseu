@@ -2,8 +2,8 @@ import { CreateUserDTO } from '@presentation/dtos/create-user.dto';
 import { SignUpController } from '@presentation/http/controllers/signup.controller';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
-import { AddUserStub } from '@tests/application/useCases/mocks/add-user.stub';
-import { AuthenticateStub } from '@tests/application/useCases/mocks/authenticate.stub';
+import { AddUserStub } from '@tests/application/mocks/useCases/add-user.stub';
+import { AuthenticateStub } from '@tests/application/mocks/useCases/authenticate.stub';
 
 const mockedRequestData = {
   firstName: 'fake',
