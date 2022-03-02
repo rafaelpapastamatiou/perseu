@@ -3,9 +3,7 @@ import Fastify from 'fastify';
 import { mongooseConnector } from './plugins/mongoose-connector';
 import { routes } from './routes';
 
-const fastify = Fastify({
-  logger: true,
-});
+const fastify = Fastify();
 
 fastify.register(mongooseConnector);
 
