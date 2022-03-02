@@ -58,7 +58,7 @@ const makeSut = () => {
   return { sut: createUser, usersRepositoryStub, hasherStub };
 };
 
-describe('CreateUser', () => {
+describe('AddUser', () => {
   it('should create a new User', async () => {
     const { sut, usersRepositoryStub } = makeSut();
 
