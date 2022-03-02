@@ -27,3 +27,17 @@ export function created(body: any): HttpResponse {
     body,
   };
 }
+
+export function badRequest(body: any): HttpResponse {
+  return {
+    statusCode: 400,
+    body,
+  };
+}
+
+export function unauthorized(body: any): HttpResponse {
+  return {
+    statusCode: 401,
+    body,
+  };
+}
