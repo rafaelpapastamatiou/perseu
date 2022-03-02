@@ -1,12 +1,17 @@
-import { FastifyPluginAsync } from 'fastify';
+import { Router } from 'express';
 
-import { adaptFastifyRoute } from '@main/http/adapters/fastify-route.adapter';
+import { adaptExpressRoute } from '@main/http/adapters/express-route.adapter';
+import { adaptExpressMiddleware } from '@main/http/adapters/express-middleware.adapter';
 import { makeSignUpController } from '@infra/http/factories/controllers/signup.controller.factory';
 import { CreateUserDTO } from '@presentation/dtos/create-user.dto';
+import { ValidationMiddleware } from '@presentation/http/middlewares/validation.middleware';
 
-export const authRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.post(
-    '/signup',
-    adaptFastifyRoute(makeSignUpController(), CreateUserDTO),
-  );
-};
+const authRoutes = Router();
+
+authRoutes.post(
+  '/signup',
+  adaptExpressMiddleware(new ValidationMiddleware(CreateUserDTO)),
+  adaptExpressRoute(makeSignUpController()),
+);
+
+export { authRoutes };

@@ -1,6 +1,9 @@
-import { FastifyPluginAsync } from 'fastify';
+import { Router } from 'express';
+
 import { authRoutes } from '@infra/http/routes/auth.routes';
 
-export const routes: FastifyPluginAsync = async (fastify) => {
-  fastify.register(authRoutes);
-};
+const router = Router();
+
+router.use('/', authRoutes);
+
+export { router };

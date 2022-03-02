@@ -41,3 +41,10 @@ export function unauthorized(body: any): HttpResponse {
     body,
   };
 }
+
+export function serverError(body: any): HttpResponse {
+  return {
+    statusCode: 500,
+    body,
+  };
+}

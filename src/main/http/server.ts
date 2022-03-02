@@ -1,21 +1,31 @@
-import Fastify from 'fastify';
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
-import { mongooseConnector } from './plugins/mongoose-connector';
-import { routes } from './routes';
+import { router } from './routes';
 
-const fastify = Fastify();
+const server = express();
 
-fastify.register(mongooseConnector);
+server.use(express.json());
+server.use(cors());
+server.use(router);
 
-fastify.register(routes);
+mongoose.connect(process.env.DATABASE_URL);
 
-const start = async () => {
-  try {
-    await fastify.listen(3000);
-  } catch (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-};
+mongoose.connection.on(
+  'error',
+  console.error.bind(console, 'MongoDB connection error.'),
+);
 
-start();
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB.');
+  server.emit('ready');
+});
+
+const port = process.env.PORT || 3000;
+
+server.on('ready', () => {
+  server.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+});
