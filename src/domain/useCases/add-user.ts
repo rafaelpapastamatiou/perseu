@@ -11,8 +11,6 @@ export type AddUserParams = {
 
   email: string;
 
-  username: string;
-
   password: string;
 };
 

@@ -7,8 +7,6 @@ export class CreateUserPayload {
 
   email: string;
 
-  username: string;
-
   password: string;
 }
 
@@ -18,8 +16,6 @@ export class User extends Entity {
   lastName: string;
 
   email: string;
-
-  username: string;
 
   password: string;
 

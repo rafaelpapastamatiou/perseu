@@ -58,28 +58,4 @@ describe('MongoDb Users Repository', () => {
 
     expect(user).toEqual(mockedUser);
   });
-
-  it('findByUsername()', async () => {
-    const sut = makeSut();
-
-    await sut.add(mockedUser);
-
-    const user = await sut.findByUsername(mockedUser.username);
-
-    expect(user).toEqual(mockedUser);
-  });
-
-  it('findByUsernameOrEmail()', async () => {
-    const sut = makeSut();
-
-    await sut.add(mockedUser);
-
-    const foundByUsername = await sut.findByUsernameOrEmail(
-      mockedUser.username,
-    );
-    const foundByEmail = await sut.findByUsernameOrEmail(mockedUser.email);
-
-    expect(foundByUsername).toEqual(mockedUser);
-    expect(foundByEmail).toEqual(mockedUser);
-  });
 });

@@ -15,7 +15,7 @@ export class SignUpController implements Controller {
     await this.addUser.execute(body);
 
     const authenticationResult = await this.authenticate.execute({
-      usernameOrEmail: body.username,
+      email: body.email,
       password: body.password,
     });
 

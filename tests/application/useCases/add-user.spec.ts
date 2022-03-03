@@ -1,5 +1,4 @@
 import { EmailAlreadyInUseException } from '@application/exceptions/email-already-in-use.exception';
-import { UsernameAlreadyInUseException } from '@application/exceptions/username-already-in-use.exception';
 import { AddUser } from '@application/useCases/add-user';
 import { mockedUser, mockedUserData } from '@tests/domain/mocks/user.mock';
 import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
@@ -36,18 +35,6 @@ describe('AddUser', () => {
 
     expect(sut.execute(mockedUserData)).rejects.toThrow(
       EmailAlreadyInUseException,
-    );
-  });
-
-  it('should not be able to create a new User with an already used username', async () => {
-    const { sut, usersRepositoryStub } = makeSut();
-
-    jest
-      .spyOn(usersRepositoryStub, 'findByUsername')
-      .mockResolvedValueOnce(mockedUser);
-
-    expect(sut.execute(mockedUserData)).rejects.toThrow(
-      UsernameAlreadyInUseException,
     );
   });
 

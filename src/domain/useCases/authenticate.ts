@@ -5,7 +5,7 @@ export interface AuthenticateSignature {
 }
 
 export type AuthenticateParams = {
-  usernameOrEmail: string;
+  email: string;
   password: string;
 };
 

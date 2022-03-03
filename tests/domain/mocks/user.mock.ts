@@ -2,7 +2,6 @@ import { User } from '@domain/entities/user';
 
 export const mockedUserData = {
   email: 'fakeuser@email.com',
-  username: 'fakeuser',
   firstName: 'fake',
   lastName: 'user',
   password: '1234',

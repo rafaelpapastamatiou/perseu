@@ -1,75 +1,14 @@
-import { Comparer } from '@application/providers/crypto/comparer';
-import {
-  JsonWebToken,
-  JsonWebTokenPayload,
-} from '@application/providers/json-web-token';
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
-import { UsersRepository } from '@application/providers/repositories/users.repository';
 import { Authenticate } from '@application/useCases/authenticate';
-import { User } from '@domain/entities/user';
-import { mockedUser, mockedUserId } from '@tests/domain/mocks/user.mock';
-
-const makeUsersRepositoryStub = (): UsersRepository => {
-  class UsersRepositoryStub implements UsersRepository {
-    async findById(): Promise<User> {
-      return undefined;
-    }
-
-    async findByEmail(): Promise<User> {
-      return undefined;
-    }
-
-    async findByUsername(): Promise<User> {
-      return undefined;
-    }
-
-    async findByUsernameOrEmail(): Promise<User> {
-      return mockedUser;
-    }
-
-    async add(user: User): Promise<User> {
-      return user;
-    }
-
-    async generateId(): Promise<string> {
-      return mockedUserId;
-    }
-  }
-
-  return new UsersRepositoryStub();
-};
-
-const makeComparerStub = (): Comparer => {
-  class HashComparerStub implements Comparer {
-    async compare(plaitext: string, digest: string): Promise<boolean> {
-      return plaitext === digest;
-    }
-  }
-
-  return new HashComparerStub();
-};
-
-const makeJwtStub = (): JsonWebToken => {
-  class JwtStub implements JsonWebToken {
-    async sign(): Promise<string> {
-      return 'fake-token';
-    }
-
-    async verify(): Promise<false | JsonWebTokenPayload> {
-      return {
-        userId: mockedUser.id,
-        ...mockedUser,
-      };
-    }
-  }
-
-  return new JwtStub();
-};
+import { mockedUser } from '@tests/domain/mocks/user.mock';
+import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
+import { HashComparerStub } from '@tests/infra/mocks/providers/comparer.stub';
+import { JwtStub } from '@tests/infra/mocks/providers/jwt.stub';
 
 const makeSut = () => {
-  const usersRepositoryStub = makeUsersRepositoryStub();
-  const comparerStub = makeComparerStub();
-  const jwtStub = makeJwtStub();
+  const usersRepositoryStub = new UsersRepositoryStub();
+  const comparerStub = new HashComparerStub();
+  const jwtStub = new JwtStub();
 
   const sut = new Authenticate(usersRepositoryStub, comparerStub, jwtStub);
 
@@ -83,10 +22,14 @@ const makeSut = () => {
 
 describe('Authenticate', () => {
   it('should authenticate and return an access-token and user', async () => {
-    const { sut } = makeSut();
+    const { sut, usersRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(usersRepositoryStub, 'findByEmail')
+      .mockResolvedValueOnce(mockedUser);
 
     const result = await sut.execute({
-      usernameOrEmail: mockedUser.username,
+      email: mockedUser.email,
       password: mockedUser.password,
     });
 
@@ -94,15 +37,15 @@ describe('Authenticate', () => {
     expect(result.user).toEqual(mockedUser);
   });
 
-  it('should not be able to authenticate with invalid username/email', async () => {
+  it('should not be able to authenticate with invalid email', async () => {
     const { sut, usersRepositoryStub } = makeSut();
 
     jest
-      .spyOn(usersRepositoryStub, 'findByUsernameOrEmail')
+      .spyOn(usersRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
     expect(
-      sut.execute({ usernameOrEmail: 'fakeuser', password: '123456' }),
+      sut.execute({ email: 'fakeuser@email.com', password: '123456' }),
     ).rejects.toThrow(InvalidCredentialsException);
   });
 
@@ -112,7 +55,7 @@ describe('Authenticate', () => {
     jest.spyOn(comparerStub, 'compare').mockResolvedValueOnce(false);
 
     expect(
-      sut.execute({ usernameOrEmail: 'fakeuser', password: '123456' }),
+      sut.execute({ email: 'fakeuser@email.com', password: '123456' }),
     ).rejects.toThrow(InvalidCredentialsException);
   });
 });

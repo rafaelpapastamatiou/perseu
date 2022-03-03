@@ -17,9 +17,7 @@ export class Authenticate implements AuthenticateSignature {
   ) {}
 
   async execute(credentials: AuthenticateParams): Promise<AuthenticateResult> {
-    const user = await this.usersRepository.findByUsernameOrEmail(
-      credentials.usernameOrEmail,
-    );
+    const user = await this.usersRepository.findByEmail(credentials.email);
 
     if (!user) throw new InvalidCredentialsException();
 
@@ -32,7 +30,6 @@ export class Authenticate implements AuthenticateSignature {
 
     const token = await this.jwt.sign({
       userId: user.id,
-      username: user.username,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,

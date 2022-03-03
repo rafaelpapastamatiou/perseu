@@ -8,7 +8,6 @@ import { AuthenticateStub } from '@tests/application/mocks/useCases/authenticate
 const mockedRequestData = {
   firstName: 'fake',
   lastName: 'user',
-  username: 'fakeuser',
   email: 'fake-email',
   password: '123456',
 };
@@ -79,7 +78,7 @@ describe('SignUp Controller', () => {
     await sut.handle(mockRequest());
 
     expect(authenticateSpy).toHaveBeenCalledWith({
-      usernameOrEmail: mockedRequestData.username,
+      email: mockedRequestData.email,
       password: mockedRequestData.password,
     });
   });
