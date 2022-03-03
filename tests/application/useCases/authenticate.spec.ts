@@ -1,16 +1,26 @@
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 import { Authenticate } from '@application/useCases/authenticate';
-import { mockedUser } from '@tests/domain/mocks/user.mock';
+import {
+  mockedUser,
+  mockedUserWithoutPassword,
+} from '@tests/domain/mocks/user.mock';
 import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
 import { HashComparerStub } from '@tests/infra/mocks/providers/comparer.stub';
 import { JwtStub } from '@tests/infra/mocks/providers/jwt.stub';
+import { UserSerializerStub } from '@tests/infra/mocks/providers/serializers/user.serializer.stub';
 
 const makeSut = () => {
   const usersRepositoryStub = new UsersRepositoryStub();
   const comparerStub = new HashComparerStub();
   const jwtStub = new JwtStub();
+  const userSerializerStub = new UserSerializerStub();
 
-  const sut = new Authenticate(usersRepositoryStub, comparerStub, jwtStub);
+  const sut = new Authenticate(
+    usersRepositoryStub,
+    comparerStub,
+    jwtStub,
+    userSerializerStub,
+  );
 
   return {
     sut,
@@ -34,7 +44,7 @@ describe('Authenticate', () => {
     });
 
     expect(result.accessToken).toBe('fake-token');
-    expect(result.user).toEqual(mockedUser);
+    expect(result.user).toEqual(mockedUserWithoutPassword);
   });
 
   it('should not be able to authenticate with invalid email', async () => {

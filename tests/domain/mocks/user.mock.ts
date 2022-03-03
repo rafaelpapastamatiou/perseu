@@ -10,3 +10,7 @@ export const mockedUserData = {
 export const mockedUserId = '507f191e810c19729de860ea';
 
 export const mockedUser = User.create(mockedUserId, mockedUserData);
+
+const { password: _pwd, ...mockedUserWithoutPassword } = mockedUser;
+
+export { mockedUserWithoutPassword };

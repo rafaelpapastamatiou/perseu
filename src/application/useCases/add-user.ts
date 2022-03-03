@@ -8,9 +8,14 @@ import { User } from '@domain/entities/user';
 
 import { EmailAlreadyInUseException } from '../exceptions/email-already-in-use.exception';
 import { UsersRepository } from '../providers/repositories/users.repository';
+import { Serializer } from '@application/providers/serializer';
 
 export class AddUser implements AddUserSignature {
-  constructor(private repository: UsersRepository, private hasher: Hasher) {}
+  constructor(
+    private repository: UsersRepository,
+    private hasher: Hasher,
+    private serializer: Serializer,
+  ) {}
 
   async execute(userData: AddUserParams): Promise<AddUserResult> {
     const { email, password } = userData;
@@ -37,6 +42,6 @@ export class AddUser implements AddUserSignature {
       throw new Error('Erro ao cadastrar usuário.');
     }
 
-    return user;
+    return this.serializer.serialize(user);
   }
 }
