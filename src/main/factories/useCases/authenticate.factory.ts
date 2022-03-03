@@ -1,8 +1,8 @@
 import { Authenticate } from '@application/useCases/authenticate';
 import { AuthenticateSignature } from '@domain/useCases/authenticate';
-import { MongoUsersRepository } from '@infra/providers/database/mongodb/repositories/mongo-users.repository';
-import { BcryptAdapter } from '@infra/providers/crypto/bcrypt.adapter';
-import { Jwt } from '@infra/providers/jwt';
+import { BcryptAdapter } from '@infra/crypto/bcrypt.adapter';
+import { MongoUsersRepository } from '@infra/database/mongodb/repositories/mongo-users.repository';
+import { Jwt } from '@infra/jwt';
 
 export function makeAuthenticate(): AuthenticateSignature {
   const mongoUsersRepository = new MongoUsersRepository();

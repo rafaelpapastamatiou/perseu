@@ -1,4 +1,4 @@
-import { MongoUsersRepository } from '@infra/providers/database/mongodb/repositories/mongo-users.repository';
+import { MongoUsersRepository } from '@infra/database/mongodb/repositories/mongo-users.repository';
 import { mockedUser } from '@tests/domain/mocks/user.mock';
 import {
   clearMongoMemoryServer,

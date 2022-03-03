@@ -3,7 +3,7 @@ import { AddUserSignature } from '@domain/useCases/add-user';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
-import { CreateUserDTO } from '../../dtos/create-user.dto';
+import { CreateUserDTO } from '../dtos/create-user.dto';
 
 export class SignUpController implements Controller {
   constructor(

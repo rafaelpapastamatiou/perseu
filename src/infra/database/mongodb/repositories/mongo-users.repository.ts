@@ -2,8 +2,8 @@ import { Model, Types } from 'mongoose';
 
 import { UsersRepository } from '@application/providers/repositories/users.repository';
 import { User } from '@domain/entities/user';
-import { MongoHelper } from '@infra/providers/database/mongodb/mongo-helper';
 import { UserDocument, UserModel } from '../schemas/user.schema';
+import { MongoHelper } from '../mongo-helper';
 
 export class MongoUsersRepository implements UsersRepository {
   userModel: Model<UserDocument> = UserModel;

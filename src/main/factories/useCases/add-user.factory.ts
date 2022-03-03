@@ -1,7 +1,7 @@
 import { AddUser } from '@application/useCases/add-user';
 import { AddUserSignature } from '@domain/useCases/add-user';
-import { MongoUsersRepository } from '@infra/providers/database/mongodb/repositories/mongo-users.repository';
-import { BcryptAdapter } from '@infra/providers/crypto/bcrypt.adapter';
+import { BcryptAdapter } from '@infra/crypto/bcrypt.adapter';
+import { MongoUsersRepository } from '@infra/database/mongodb/repositories/mongo-users.repository';
 
 export function makeAddUser(): AddUserSignature {
   const mongoUsersRepository = new MongoUsersRepository();

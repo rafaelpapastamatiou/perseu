@@ -1,4 +1,4 @@
-import { CreateUserDTO } from '@presentation/dtos/create-user.dto';
+import { CreateUserDTO } from '@presentation/http/dtos/create-user.dto';
 import { SignUpController } from '@presentation/http/controllers/signup.controller';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
