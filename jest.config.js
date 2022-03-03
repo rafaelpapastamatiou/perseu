@@ -1,5 +1,6 @@
 module.exports = {
   roots: ['<rootDir>/tests'],
+  setupFiles: ['<rootDir>/tests/setup-tests.ts'],
   collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**'],
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
