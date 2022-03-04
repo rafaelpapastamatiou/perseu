@@ -36,11 +36,11 @@ export class AddUser implements AddUserSignature {
 
     const user = User.create(id, { ...userData, password: hashedPassword });
 
-    await this.repository.add(user);
-
     if (!user) {
       throw new Error('Erro ao cadastrar usuário.');
     }
+
+    await this.repository.add(user);
 
     return this.serializer.serialize(user);
   }
