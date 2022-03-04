@@ -54,17 +54,21 @@ describe('Authenticate', () => {
       .spyOn(usersRepositoryStub, 'findByEmail')
       .mockResolvedValueOnce(undefined);
 
-    expect(
+    await expect(
       sut.execute({ email: 'fakeuser@email.com', password: '123456' }),
     ).rejects.toThrow(InvalidCredentialsException);
   });
 
   it('should not be able to authenticate with invalid password', async () => {
-    const { sut, comparerStub } = makeSut();
+    const { sut, comparerStub, usersRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(usersRepositoryStub, 'findByEmail')
+      .mockResolvedValueOnce(mockedUser);
 
     jest.spyOn(comparerStub, 'compare').mockResolvedValueOnce(false);
 
-    expect(
+    await expect(
       sut.execute({ email: 'fakeuser@email.com', password: '123456' }),
     ).rejects.toThrow(InvalidCredentialsException);
   });
