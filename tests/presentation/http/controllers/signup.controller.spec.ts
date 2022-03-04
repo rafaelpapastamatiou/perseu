@@ -39,7 +39,7 @@ describe('SignUp Controller', () => {
       throw new Error();
     });
 
-    expect(sut.handle(mockRequest())).rejects.toThrow();
+    await expect(sut.handle(mockRequest())).rejects.toThrow();
   });
 
   it('should throw if Authenticate throws', async () => {
@@ -49,7 +49,7 @@ describe('SignUp Controller', () => {
       throw new Error();
     });
 
-    expect(sut.handle(mockRequest())).rejects.toThrow();
+    await expect(sut.handle(mockRequest())).rejects.toThrow();
   });
 
   it('should return 200 if valid data is provided', async () => {

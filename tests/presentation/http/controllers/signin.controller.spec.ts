@@ -35,7 +35,7 @@ describe('SignIn Controller', () => {
       throw new Error();
     });
 
-    expect(sut.handle(mockRequest())).rejects.toThrow();
+    await expect(sut.handle(mockRequest())).rejects.toThrow();
   });
 
   it('should return 200 if provided credentials are valid', async () => {
@@ -53,7 +53,7 @@ describe('SignIn Controller', () => {
       throw new InvalidCredentialsException();
     });
 
-    expect(sut.handle(mockRequest())).rejects.toThrow(
+    await expect(sut.handle(mockRequest())).rejects.toThrow(
       new InvalidCredentialsException(),
     );
   });
