@@ -1,6 +1,8 @@
+import { DomainExceptionCodes } from '@domain/enums/domain-exception-codes.enum';
 import {
   badRequest,
   created,
+  getHttpExceptionCodeFromDomainException,
   ok,
   serverError,
   unauthorized,
@@ -50,5 +52,28 @@ describe('Http Helpers', () => {
       statusCode: 500,
       body,
     });
+  });
+
+  it('getHttpExceptionCodeFromDomainException()', () => {
+    const alreadyExistsHttpCode = getHttpExceptionCodeFromDomainException(
+      DomainExceptionCodes.ALREADY_EXISTS,
+    );
+
+    const alreadyInUseHttpCode = getHttpExceptionCodeFromDomainException(
+      DomainExceptionCodes.ALREADY_IN_USE,
+    );
+
+    const notFoundHttpCode = getHttpExceptionCodeFromDomainException(
+      DomainExceptionCodes.NOT_FOUND,
+    );
+
+    const unauthorizedHttpCode = getHttpExceptionCodeFromDomainException(
+      DomainExceptionCodes.UNAUTHORIZED,
+    );
+
+    expect(alreadyExistsHttpCode).toEqual(400);
+    expect(alreadyInUseHttpCode).toEqual(400);
+    expect(notFoundHttpCode).toEqual(404);
+    expect(unauthorizedHttpCode).toEqual(401);
   });
 });
