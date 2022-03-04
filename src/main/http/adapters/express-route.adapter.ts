@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
 import { DomainException } from '@domain/exceptions/domain-exception';
-import { HttpException } from '@presentation/http/exceptions/http.exception';
 import { getHttpExceptionCodeFromDomainException } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest } from '@presentation/http/protocols/http';
@@ -20,10 +19,6 @@ export const adaptExpressRoute = (controller: Controller) => {
     } catch (err) {
       if (err instanceof DomainException) {
         res.status(getHttpExceptionCodeFromDomainException(err.code)).send({
-          error: err.message,
-        });
-      } else if (err instanceof HttpException) {
-        res.status(err.code).send({
           error: err.message,
         });
       } else {
