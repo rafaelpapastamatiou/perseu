@@ -1,7 +1,6 @@
 // import { LogErrorRepository } from '@/data/protocols/db';
 
 import { DomainException } from '@domain/exceptions/domain-exception';
-import { HttpException } from '@presentation/http/exceptions/http.exception';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
 
@@ -16,7 +15,7 @@ export class ErrorLogControllerDecorator implements Controller {
 
       return httpResponse;
     } catch (err) {
-      if (err instanceof DomainException || err instanceof HttpException) {
+      if (err instanceof DomainException) {
         throw err;
       }
 
