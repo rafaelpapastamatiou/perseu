@@ -1,5 +1,7 @@
 import request from 'supertest';
 import { Express } from 'express';
+import mongoose, { Collection } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 import {
   connectMongoMemoryServer,
@@ -9,6 +11,7 @@ import {
 import { setupApp } from '@main/http/app';
 
 let app: Express;
+let usersCollection: Collection;
 
 describe('Auth Routes', () => {
   beforeAll(async () => {
@@ -18,6 +21,7 @@ describe('Auth Routes', () => {
 
   beforeEach(async () => {
     await clearMongoMemoryServer();
+    usersCollection = mongoose.connection.collection('users');
   });
 
   afterAll(async () => {
@@ -25,7 +29,7 @@ describe('Auth Routes', () => {
   });
 
   describe('POST /signup', () => {
-    it('should return 200 on signup', async () => {
+    it('should return 200 if user created with success', async () => {
       await request(app)
         .post('/signup')
         .send({
@@ -35,6 +39,17 @@ describe('Auth Routes', () => {
           password: '123456',
         })
         .expect(200);
+    });
+
+    it('should return 400 if email already in use', async () => {
+      const password = await bcrypt.hash('123456', 10);
+
+      await usersCollection.insertOne({
+        firstName: 'fake',
+        lastName: 'user',
+        email: 'fakeuser@email.com',
+        password,
+      });
 
       await request(app)
         .post('/signup')
@@ -45,6 +60,41 @@ describe('Auth Routes', () => {
           password: '123456',
         })
         .expect(400);
+    });
+  });
+
+  describe('POST /signin', () => {
+    it('should return 200 if provided credentials are valid', async () => {
+      const password = await bcrypt.hash('123456', 10);
+
+      await usersCollection.insertOne({
+        firstName: 'fake',
+        lastName: 'user',
+        email: 'fakeuser@email.com',
+        password,
+      });
+
+      await request(app)
+        .post('/signin')
+        .send({
+          firstName: 'fake',
+          lastName: 'user',
+          email: 'fakeuser@email.com',
+          password: '123456',
+        })
+        .expect(200);
+    });
+
+    it('should return 401 if provided credentials are invalid', async () => {
+      await request(app)
+        .post('/signin')
+        .send({
+          firstName: 'fake',
+          lastName: 'user',
+          email: 'fakeuser@email.com',
+          password: '123456',
+        })
+        .expect(401);
     });
   });
 });
