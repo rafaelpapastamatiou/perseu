@@ -12,14 +12,14 @@ jest.mock('jsonwebtoken', () => ({
 }));
 
 const makeSut = () => {
-  const jwt = new Jwt();
+  const sut = new Jwt();
 
-  return { jwt };
+  return { sut };
 };
 
 describe('Jwt', () => {
   it('should be able to sign a token', async () => {
-    const { jwt } = makeSut();
+    const { sut } = makeSut();
 
     const payload: JsonWebTokenPayload = {
       email: 'fakeuser@email.com',
@@ -28,15 +28,15 @@ describe('Jwt', () => {
       userId: 'fake-id',
     };
 
-    const token = await jwt.sign(payload);
+    const token = await sut.sign(payload);
 
     expect(token).toEqual('token');
   });
 
   it('should be able to verify a token and return decoded data', async () => {
-    const { jwt } = makeSut();
+    const { sut } = makeSut();
 
-    const decoded = await jwt.verify('token');
+    const decoded = await sut.verify('token');
 
     expect(decoded).toEqual({
       email: 'fakeuser@email.com',
@@ -46,13 +46,13 @@ describe('Jwt', () => {
   });
 
   it('should return false if jsonwebtoken.verify throws', async () => {
-    const { jwt } = makeSut();
+    const { sut } = makeSut();
 
     jest.spyOn(jsonwebtoken, 'verify').mockImplementationOnce(() => {
       throw new Error();
     });
 
-    const decoded = await jwt.verify('token');
+    const decoded = await sut.verify('token');
 
     expect(decoded).toEqual(false);
   });
