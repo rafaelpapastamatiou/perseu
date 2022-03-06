@@ -1,8 +1,8 @@
 import { DomainExceptionCodes } from '../enums/domain-exception-codes.enum';
 import { DomainException } from './domain-exception';
 
-export class NotFoundException extends DomainException {
+export class InvalidParamException extends DomainException {
   constructor(message: string) {
-    super(message, DomainExceptionCodes.NOT_FOUND);
+    super(message, DomainExceptionCodes.INVALID_PARAM);
   }
 }

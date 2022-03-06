@@ -7,6 +7,7 @@ export function getHttpExceptionCodeFromDomainException(
   switch (domainExceptionCode) {
     case DomainExceptionCodes.ALREADY_EXISTS:
     case DomainExceptionCodes.ALREADY_IN_USE:
+    case DomainExceptionCodes.INVALID_PARAM:
       return 400;
     case DomainExceptionCodes.NOT_FOUND:
       return 404;
