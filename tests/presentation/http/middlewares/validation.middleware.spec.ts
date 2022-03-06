@@ -30,6 +30,7 @@ describe('Validation Middleware', () => {
         name: 'fakename',
       },
       params: {},
+      query: {},
     };
 
     const response = await sut.handle(request);
@@ -45,6 +46,7 @@ describe('Validation Middleware', () => {
         email: 'fake@email.com',
       },
       params: {},
+      query: {},
     };
 
     const response = await sut.handle(request);
@@ -68,6 +70,7 @@ describe('Validation Middleware', () => {
         name: 'fakename',
       },
       params: {},
+      query: {},
     };
 
     const response = await sut.handle(request);
