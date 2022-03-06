@@ -34,7 +34,9 @@ describe('MongoDb Users Repository', () => {
   it('add()', async () => {
     const sut = makeSut();
 
-    const user = await sut.add(mockedUser);
+    await sut.add(mockedUser);
+
+    const user = await sut.findById(mockedUser.id);
 
     expect(user).toEqual(mockedUser);
   });

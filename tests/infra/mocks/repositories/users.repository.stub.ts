@@ -11,8 +11,8 @@ export class UsersRepositoryStub implements UsersRepository {
     return undefined;
   }
 
-  async add(user: User): Promise<User> {
-    return user;
+  async add(): Promise<void> {
+    return;
   }
 
   async generateId(): Promise<string> {

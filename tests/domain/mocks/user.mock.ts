@@ -1,6 +1,6 @@
-import { User } from '@domain/entities/user';
+import { CreateUserPayload, User } from '@domain/entities/user';
 
-export const mockedUserData = {
+export const mockedUserData: CreateUserPayload = {
   email: 'fakeuser@email.com',
   firstName: 'fake',
   lastName: 'user',
@@ -11,6 +11,8 @@ export const mockedUserId = '507f191e810c19729de860ea';
 
 export const mockedUser = User.create(mockedUserId, mockedUserData);
 
-const { password: _pwd, ...mockedUserWithoutPassword } = mockedUser;
+const mockedUserWithoutPassword = { ...mockedUser };
+
+delete mockedUserWithoutPassword.password;
 
 export { mockedUserWithoutPassword };
