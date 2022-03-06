@@ -10,11 +10,16 @@ export class ValidationMiddleware implements Middleware {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const { body } = request;
+      const { body, query } = request;
+
+      const data = {
+        ...body,
+        ...query,
+      };
 
       const errors: string[] = [];
 
-      const dtoObj = plainToInstance(this.dto, body);
+      const dtoObj = plainToInstance(this.dto, data);
 
       const dtoErrors = await validate(dtoObj);
 

@@ -14,6 +14,7 @@ const mockRequest = (): HttpRequest<AuthCredentialsDTO> => {
   return {
     body: mockedRequestData,
     params: {},
+    query: {},
   };
 };
 

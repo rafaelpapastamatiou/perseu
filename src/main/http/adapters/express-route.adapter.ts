@@ -10,6 +10,7 @@ export const adaptExpressRoute = (controller: Controller) => {
     const request: HttpRequest = {
       body: { ...((req.body as Record<string, unknown>) || {}) },
       params: { ...((req.params as Record<string, unknown>) || {}) },
+      query: { ...((req.query as Record<string, unknown>) || {}) },
     };
 
     try {

@@ -10,6 +10,7 @@ export const adaptExpressMiddleware = (middleware: Middleware) => {
       ...(req.headers || {}),
       body: req.body,
       params: req.params,
+      query: req.query,
     };
 
     const httpResponse = await middleware.handle(request);

@@ -16,6 +16,7 @@ const mockRequest = (): HttpRequest<CreateUserDTO> => {
   return {
     body: mockedRequestData,
     params: {},
+    query: {},
   };
 };
 
