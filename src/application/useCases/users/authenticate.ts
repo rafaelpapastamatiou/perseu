@@ -1,14 +1,13 @@
+import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 import { Comparer } from '@application/providers/crypto/comparer';
 import { JsonWebToken } from '@application/providers/json-web-token';
+import { UsersRepository } from '@application/providers/repositories/users.repository';
 import { Serializer } from '@application/providers/serializer';
 import {
   AuthenticateSignature,
   AuthenticateParams,
   AuthenticateResult,
-} from '@domain/useCases/authenticate';
-import { InvalidCredentialsException } from '../exceptions/invalid-credentials.exception';
-
-import { UsersRepository } from '../providers/repositories/users.repository';
+} from '@domain/useCases/users/authenticate';
 
 export class Authenticate implements AuthenticateSignature {
   constructor(

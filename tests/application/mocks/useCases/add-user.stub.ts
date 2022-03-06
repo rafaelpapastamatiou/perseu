@@ -1,5 +1,5 @@
 import { User } from '@domain/entities/user';
-import { AddUserSignature } from '@domain/useCases/add-user';
+import { AddUserSignature } from '@domain/useCases/users/add-user';
 import { mockedUser } from '@tests/domain/mocks/user.mock';
 
 export class AddUserStub implements AddUserSignature {

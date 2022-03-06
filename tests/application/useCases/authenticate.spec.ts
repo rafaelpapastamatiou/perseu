@@ -1,5 +1,5 @@
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
-import { Authenticate } from '@application/useCases/authenticate';
+import { Authenticate } from '@application/useCases/users/authenticate';
 import {
   mockedUser,
   mockedUserWithoutPassword,

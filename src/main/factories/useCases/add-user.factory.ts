@@ -1,5 +1,5 @@
-import { AddUser } from '@application/useCases/add-user';
-import { AddUserSignature } from '@domain/useCases/add-user';
+import { AddUser } from '@application/useCases/users/add-user';
+import { AddUserSignature } from '@domain/useCases/users/add-user';
 import { BcryptAdapter } from '@infra/crypto/bcrypt.adapter';
 import { MongoUsersRepository } from '@infra/database/mongodb/repositories/mongo-users.repository';
 import { UserSerializer } from '@infra/serializers/user.serializer';

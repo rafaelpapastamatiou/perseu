@@ -1,4 +1,4 @@
-import { AuthenticateSignature } from '@domain/useCases/authenticate';
+import { AuthenticateSignature } from '@domain/useCases/users/authenticate';
 import { AuthCredentialsDTO } from '../dtos/auth-credentials.dto';
 import { ok } from '../helpers/http-helpers';
 import { Controller } from '../protocols/controller';

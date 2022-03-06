@@ -1,5 +1,5 @@
 import { EmailAlreadyInUseException } from '@application/exceptions/email-already-in-use.exception';
-import { AddUser } from '@application/useCases/add-user';
+import { AddUser } from '@application/useCases/users/add-user';
 import {
   mockedUser,
   mockedUserData,

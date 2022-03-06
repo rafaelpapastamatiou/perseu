@@ -1,7 +1,7 @@
 import {
   AuthenticateResult,
   AuthenticateSignature,
-} from '@domain/useCases/authenticate';
+} from '@domain/useCases/users/authenticate';
 import { mockedUser } from '@tests/domain/mocks/user.mock';
 
 export class AuthenticateStub implements AuthenticateSignature {
