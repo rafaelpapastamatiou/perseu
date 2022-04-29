@@ -4,7 +4,7 @@ import cors from 'cors';
 import { router } from './routes';
 import { setupRedisClient } from '@infra/redis';
 import { setupMongoose } from '@infra/database/mongodb/mongo-helper';
-import { setupSwagger } from './swagger/swagger-setup';
+import { setupSwagger } from './swagger';
 
 export async function setupApp(): Promise<Express> {
   const app = express();
