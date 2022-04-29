@@ -26,4 +26,6 @@ export async function setupRedisClient() {
   });
 
   await redisClient.connect();
+
+  console.log('Connected to Redis server.');
 }
