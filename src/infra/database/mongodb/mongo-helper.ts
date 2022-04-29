@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 import { Entity } from '@domain/entities/entity';
 
@@ -31,3 +31,13 @@ export const MongoHelper = {
     return new Types.ObjectId(id);
   },
 };
+
+export async function setupMongoose(): Promise<void> {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL not found');
+  }
+
+  await mongoose.connect(process.env.DATABASE_URL);
+
+  console.log('Connected to MongoDb server.');
+}
