@@ -5,7 +5,7 @@ import { adaptExpressMiddleware } from '@main/http/adapters/express-middleware.a
 import { makeSignUpController } from '@main/http/factories/controllers/signup.controller.factory';
 import { CreateUserDTO } from '@presentation/http/dtos/create-user.dto';
 import { ValidationMiddleware } from '@presentation/http/middlewares/validation.middleware';
-import { AuthCredentialsDTO } from '@presentation/http/dtos/auth-credentials.dto';
+import { AuthenticateRequestDTO } from '@presentation/http/dtos/authentication.dto';
 import { makeSignInController } from '../factories/controllers/signin.controller.factory';
 
 const authRoutes = Router();
@@ -18,7 +18,7 @@ authRoutes.post(
 
 authRoutes.post(
   '/signin',
-  adaptExpressMiddleware(new ValidationMiddleware(AuthCredentialsDTO)),
+  adaptExpressMiddleware(new ValidationMiddleware(AuthenticateRequestDTO)),
   adaptExpressRoute(makeSignInController()),
 );
 export { authRoutes };
