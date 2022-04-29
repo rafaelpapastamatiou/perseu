@@ -1,7 +1,7 @@
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
-import { AuthenticateStub } from '@tests/application/mocks/useCases/authenticate.stub';
-import { AuthCredentialsDTO } from '@presentation/http/dtos/auth-credentials.dto';
+import { AuthenticateStub } from '@tests/application/mocks/useCases/users/authenticate.stub';
+import { AuthenticateRequestDTO } from '@presentation/http/dtos/authentication.dto';
 import { SignInController } from '@presentation/http/controllers/signin.controller';
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 
@@ -10,11 +10,12 @@ const mockedRequestData = {
   password: '123456',
 };
 
-const mockRequest = (): HttpRequest<AuthCredentialsDTO> => {
+const mockRequest = (): HttpRequest<AuthenticateRequestDTO> => {
   return {
     body: mockedRequestData,
     params: {},
     query: {},
+    headers: {},
   };
 };
 
@@ -44,7 +45,7 @@ describe('SignIn Controller', () => {
 
     const httpResponse = await sut.handle(mockRequest());
 
-    expect(httpResponse).toEqual(ok(authenticateStub.result));
+    expect(httpResponse).toEqual(ok({ body: authenticateStub.result }));
   });
 
   it('should return 401 if provided credentials are invalid', async () => {

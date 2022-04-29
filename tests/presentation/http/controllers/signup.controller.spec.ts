@@ -2,8 +2,8 @@ import { CreateUserDTO } from '@presentation/http/dtos/create-user.dto';
 import { SignUpController } from '@presentation/http/controllers/signup.controller';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
-import { AddUserStub } from '@tests/application/mocks/useCases/add-user.stub';
-import { AuthenticateStub } from '@tests/application/mocks/useCases/authenticate.stub';
+import { AddUserStub } from '@tests/application/mocks/useCases/users/add-user.stub';
+import { AuthenticateStub } from '@tests/application/mocks/useCases/users/authenticate.stub';
 
 const mockedRequestData = {
   firstName: 'fake',
@@ -17,6 +17,7 @@ const mockRequest = (): HttpRequest<CreateUserDTO> => {
     body: mockedRequestData,
     params: {},
     query: {},
+    headers: {},
   };
 };
 
@@ -58,7 +59,7 @@ describe('SignUp Controller', () => {
 
     const httpResponse = await sut.handle(mockRequest());
 
-    expect(httpResponse).toEqual(ok(authenticateStub.result));
+    expect(httpResponse).toEqual(ok({ body: authenticateStub.result }));
   });
 
   it('should call AddUser with correct values', async () => {

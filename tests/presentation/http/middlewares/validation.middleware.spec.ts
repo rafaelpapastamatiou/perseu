@@ -31,6 +31,7 @@ describe('Validation Middleware', () => {
       },
       params: {},
       query: {},
+      headers: {},
     };
 
     const response = await sut.handle(request);
@@ -47,6 +48,7 @@ describe('Validation Middleware', () => {
       },
       params: {},
       query: {},
+      headers: {},
     };
 
     const response = await sut.handle(request);
@@ -71,10 +73,11 @@ describe('Validation Middleware', () => {
       },
       params: {},
       query: {},
+      headers: {},
     };
 
     const response = await sut.handle(request);
 
-    expect(response).toEqual(serverError(err));
+    expect(response).toEqual(serverError({ body: err }));
   });
 });
