@@ -1,9 +1,12 @@
-import mongoose, { Document, Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 import { Entity } from '@domain/entities/entity';
 
 export const MongoHelper = {
-  mapToClass: <T extends Entity>(doc: Document<T>, prototype: T): T => {
+  mapToClass: <T extends Entity>(
+    doc: mongoose.Document<T>,
+    prototype: T,
+  ): T => {
     if (!doc) return undefined;
 
     const { _id, ...rest } = doc.toObject();
@@ -19,7 +22,7 @@ export const MongoHelper = {
 
     return obj;
   },
-  mapToDocument: <T extends Document>(obj: Entity): T => {
+  mapToDocument: <T extends mongoose.Document>(obj: Entity): T => {
     const { id, ...rest } = obj;
 
     return {
@@ -27,8 +30,8 @@ export const MongoHelper = {
       ...rest,
     } as T;
   },
-  objectId: (id: string): Types.ObjectId => {
-    return new Types.ObjectId(id);
+  objectId: (id: string): mongoose.Types.ObjectId => {
+    return new mongoose.Types.ObjectId(id);
   },
 };
 
