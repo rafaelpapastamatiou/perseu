@@ -2,14 +2,26 @@ import {
   JsonWebToken,
   JsonWebTokenPayload,
 } from '@application/providers/json-web-token';
-import { ok, unauthorized } from '../helpers/http-helpers';
+import {
+  HttpExceptionResponseBody,
+  ok,
+  unauthorized,
+} from '../helpers/http-helpers';
 import { HttpRequest, HttpResponse } from '../protocols/http';
 import { Middleware } from '../protocols/middleware';
+
+type AuthResult = {
+  userId: string;
+};
 
 export class AuthMiddleware implements Middleware {
   constructor(private jwt: JsonWebToken) {}
 
-  async handle({ headers }: HttpRequest): Promise<HttpResponse> {
+  async handle({
+    headers,
+  }: HttpRequest): Promise<
+    HttpResponse<AuthResult | HttpExceptionResponseBody>
+  > {
     // mocked authorization
     return ok({
       userId: '62210ecbff25530ac06eb3c5',

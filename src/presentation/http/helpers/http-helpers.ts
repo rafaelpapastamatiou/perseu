@@ -16,17 +16,22 @@ export function getHttpExceptionCodeFromDomainException(
   }
 }
 
-export type HttpResponsePayload = {
-  body?: any;
+export type HttpResponsePayload<B> = {
+  body?: B;
   params?: any;
   [key: string]: any;
 };
 
-export function ok({
+export type HttpExceptionResponseBody = {
+  error?: string;
+  errors?: string[];
+};
+
+export function ok<B>({
   body,
   params,
   ...rest
-}: HttpResponsePayload): HttpResponse {
+}: HttpResponsePayload<B>): HttpResponse<B> {
   return {
     statusCode: 200,
     body,
@@ -35,11 +40,11 @@ export function ok({
   };
 }
 
-export function created({
+export function created<B>({
   body,
   params,
   ...rest
-}: HttpResponsePayload): HttpResponse {
+}: HttpResponsePayload<B>): HttpResponse<B> {
   return {
     statusCode: 201,
     body,
@@ -52,7 +57,7 @@ export function badRequest({
   body,
   params,
   ...rest
-}: HttpResponsePayload): HttpResponse {
+}: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 400,
     body,
@@ -66,7 +71,7 @@ export function unauthorized({
   body,
   params,
   ...rest
-}: HttpResponsePayload): HttpResponse {
+}: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 401,
     body,
@@ -80,12 +85,11 @@ export function serverError({
   body,
   params,
   ...rest
-}: HttpResponsePayload): HttpResponse {
+}: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 500,
     body,
     params,
-
     ...rest,
   };
 }

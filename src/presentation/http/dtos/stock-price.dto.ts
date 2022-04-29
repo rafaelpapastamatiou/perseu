@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class GetStockPriceDTO {
+export class StockPriceRequestDTO {
   @IsString()
   symbol: string;
 

@@ -8,7 +8,7 @@ import { badRequest, ok, serverError } from '../helpers/http-helpers';
 export class ValidationMiddleware implements Middleware {
   constructor(private dto: ClassConstructor<any>) {}
 
-  async handle(request: HttpRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest): Promise<HttpResponse<any>> {
     try {
       const { body, query } = request;
 
@@ -33,7 +33,7 @@ export class ValidationMiddleware implements Middleware {
 
       return ok({});
     } catch (err) {
-      return serverError({ body: err });
+      return serverError({ body: { error: err.message } });
     }
   }
 }

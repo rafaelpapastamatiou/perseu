@@ -1,7 +1,7 @@
 import { TransactionTypes } from '@domain/entities/transaction';
 import { IsDateString, IsEnum, IsNumber, IsString } from 'class-validator';
 
-export class CreateTransactionDTO {
+export class CreateTransactionRequestDTO {
   @IsEnum(TransactionTypes)
   type: TransactionTypes;
 
