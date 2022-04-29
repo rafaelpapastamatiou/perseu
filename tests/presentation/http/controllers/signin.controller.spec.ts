@@ -1,7 +1,7 @@
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
 import { AuthenticateStub } from '@tests/application/mocks/useCases/users/authenticate.stub';
-import { AuthenticateRequestDTO } from '@presentation/http/dtos/authentication.dto';
+import { SignInRequestDTO } from '@presentation/http/dtos/signin.dto';
 import { SignInController } from '@presentation/http/controllers/signin.controller';
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 
@@ -10,7 +10,7 @@ const mockedRequestData = {
   password: '123456',
 };
 
-const mockRequest = (): HttpRequest<AuthenticateRequestDTO> => {
+const mockRequest = (): HttpRequest<SignInRequestDTO> => {
   return {
     body: mockedRequestData,
     params: {},

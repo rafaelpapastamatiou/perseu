@@ -28,7 +28,7 @@ describe('Http Helpers', () => {
   });
 
   it('badRequest()', () => {
-    const body = { message: 'Testing badRequest() helper' };
+    const body = { error: 'Testing badRequest() helper' };
 
     expect(badRequest({ body })).toEqual({
       statusCode: 400,
@@ -37,7 +37,7 @@ describe('Http Helpers', () => {
   });
 
   it('unauthorized()', () => {
-    const body = { message: 'Testing unauthorized() helper' };
+    const body = { error: 'Testing unauthorized() helper' };
 
     expect(unauthorized({ body })).toEqual({
       statusCode: 401,
@@ -46,7 +46,7 @@ describe('Http Helpers', () => {
   });
 
   it('serverError()', () => {
-    const body = { message: 'Testing serverError() helper' };
+    const body = { error: 'Testing serverError() helper' };
 
     expect(serverError({ body })).toEqual({
       statusCode: 500,

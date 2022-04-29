@@ -78,6 +78,6 @@ describe('Validation Middleware', () => {
 
     const response = await sut.handle(request);
 
-    expect(response).toEqual(serverError({ body: err }));
+    expect(response).toEqual(serverError({ body: { error: err.message } }));
   });
 });

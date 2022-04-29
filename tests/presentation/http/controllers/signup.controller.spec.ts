@@ -1,4 +1,4 @@
-import { CreateUserDTO } from '@presentation/http/dtos/create-user.dto';
+import { SignUpRequestDTO } from '@presentation/http/dtos/signup.dto';
 import { SignUpController } from '@presentation/http/controllers/signup.controller';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { HttpRequest } from '@presentation/http/protocols/http';
@@ -12,7 +12,7 @@ const mockedRequestData = {
   password: '123456',
 };
 
-const mockRequest = (): HttpRequest<CreateUserDTO> => {
+const mockRequest = (): HttpRequest<SignUpRequestDTO> => {
   return {
     body: mockedRequestData,
     params: {},
