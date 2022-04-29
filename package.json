@@ -25,7 +25,9 @@
     "mongodb-memory-server": "^8.3.0",
     "mongoose": "^6.2.1",
     "redis": "^4.0.4",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "swagger-express-ts": "^1.1.0",
+    "swagger-ui-dist": "^4.10.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
