@@ -11,6 +11,8 @@ export const adaptExpressRoute = (controller: Controller) => {
       body: { ...((req.body as Record<string, unknown>) || {}) },
       params: { ...((req.params as Record<string, unknown>) || {}) },
       query: { ...((req.query as Record<string, unknown>) || {}) },
+      headers: { ...((req.headers as Record<string, unknown>) || {}) },
+      userId: req.userId,
     };
 
     try {

@@ -16,7 +16,7 @@ export class StockPriceController implements Controller {
     });
 
     return ok({
-      price,
+      body: price,
     });
   }
 }

@@ -19,6 +19,8 @@ export class SignUpController implements Controller {
       password: body.password,
     });
 
-    return ok(authenticationResult);
+    return ok({
+      body: authenticationResult,
+    });
   }
 }

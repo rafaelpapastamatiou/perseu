@@ -28,12 +28,12 @@ export class ValidationMiddleware implements Middleware {
       );
 
       if (errors.length > 0) {
-        return badRequest({ errors });
+        return badRequest({ body: { errors } });
       }
 
       return ok({});
     } catch (err) {
-      return serverError(err);
+      return serverError({ body: err });
     }
   }
 }

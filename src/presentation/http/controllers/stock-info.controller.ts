@@ -15,6 +15,8 @@ export class StockInfoController implements Controller {
       exchange: query.exchange,
     });
 
-    return ok(stockInfo);
+    return ok({
+      body: stockInfo,
+    });
   }
 }

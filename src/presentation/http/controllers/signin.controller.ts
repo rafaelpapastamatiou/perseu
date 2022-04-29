@@ -1,5 +1,5 @@
 import { AuthenticateSignature } from '@domain/useCases/users/authenticate';
-import { AuthCredentialsDTO } from '../dtos/auth-credentials.dto';
+import { AuthenticateRequestDTO } from '../dtos/authentication.dto';
 import { ok } from '../helpers/http-helpers';
 import { Controller } from '../protocols/controller';
 import { HttpRequest, HttpResponse } from '../protocols/http';
@@ -9,7 +9,7 @@ export class SignInController implements Controller {
 
   async handle({
     body,
-  }: HttpRequest<AuthCredentialsDTO>): Promise<HttpResponse> {
+  }: HttpRequest<AuthenticateRequestDTO>): Promise<HttpResponse> {
     const { email, password } = body;
 
     const authenticateResult = await this.authenticate.execute({
@@ -17,6 +17,8 @@ export class SignInController implements Controller {
       password,
     });
 
-    return ok(authenticateResult);
+    return ok({
+      body: authenticateResult,
+    });
   }
 }

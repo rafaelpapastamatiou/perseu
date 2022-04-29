@@ -1,4 +1,4 @@
-import { User } from '../entities/user';
+import { User } from '@domain/entities/user';
 
 export interface AuthenticateSignature {
   execute(credentials: AuthenticateParams): Promise<AuthenticateResult>;
