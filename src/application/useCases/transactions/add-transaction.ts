@@ -31,8 +31,6 @@ export class AddTransaction implements AddTransactionSignature {
 
     const transaction = Transaction.create(id, payload);
 
-    await this.transactionsRepository.add(transaction);
-
     const asset = await this.assetsRepository.findBySymbol({
       symbol: payload.symbol,
       userId: payload.userId,
@@ -44,6 +42,8 @@ export class AddTransaction implements AddTransactionSignature {
           'Can´t register a sale transaction because you don´t have any asset.',
         );
       }
+
+      await this.transactionsRepository.add(transaction);
 
       await this.addAsset.execute({
         exchange: payload.exchange,
@@ -73,6 +73,8 @@ export class AddTransaction implements AddTransactionSignature {
         quantity: asset.quantity + payload.quantity,
       };
     }
+
+    await this.transactionsRepository.add(transaction);
 
     asset.update(updateAssetPayload);
 
