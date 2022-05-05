@@ -42,6 +42,7 @@ const authRoutes = Router();
  * @example response - 200 success response example
  * 49.5
  */
+
 authRoutes.post(
   '/signin',
   adaptExpressMiddleware(new ValidationMiddleware(SignInRequestDTO)),
@@ -53,7 +54,7 @@ authRoutes.post(
  * @typedef {object} SignUpRequest
  * @property {string} email.required - User email
  * @property {string} password.required - User password
- *  @property {string} firstName.required - User first name
+ * @property {string} firstName.required - User first name
  * @property {string} lastName.required - User last name
  */
 
