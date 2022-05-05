@@ -1,3 +1,4 @@
+import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { UpdateTransaction } from '@application/useCases/transactions/update-transaction';
 import { Asset } from '@domain/entities/asset';
 import {
@@ -132,6 +133,7 @@ describe('UpdateTransaction', () => {
     };
 
     const mockedTransaction = createMockedTransaction();
+    Object.assign(mockedTransaction, payload);
 
     const response = await sut.execute(
       {
@@ -141,10 +143,7 @@ describe('UpdateTransaction', () => {
       payload,
     );
 
-    expect(response).toEqual({
-      ...mockedTransaction,
-      ...payload,
-    });
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith({
       ...mockedTransaction,
@@ -187,6 +186,7 @@ describe('UpdateTransaction', () => {
     };
 
     const mockedTransaction = createMockedTransaction();
+    Object.assign(mockedTransaction, payload);
 
     const response = await sut.execute(
       {
@@ -196,10 +196,7 @@ describe('UpdateTransaction', () => {
       payload,
     );
 
-    expect(response).toEqual({
-      ...mockedTransaction,
-      ...payload,
-    });
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith({
       ...mockedTransaction,
@@ -239,6 +236,7 @@ describe('UpdateTransaction', () => {
     };
 
     const mockedTransaction = createMockedTransaction();
+    Object.assign(mockedTransaction, payload);
 
     const response = await sut.execute(
       {
@@ -248,10 +246,7 @@ describe('UpdateTransaction', () => {
       payload,
     );
 
-    expect(response).toEqual({
-      ...mockedTransaction,
-      ...payload,
-    });
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith({
       ...mockedTransaction,
@@ -293,6 +288,7 @@ describe('UpdateTransaction', () => {
     };
 
     const mockedTransaction = createMockedTransaction();
+    Object.assign(mockedTransaction, payload);
 
     const response = await sut.execute(
       {
@@ -302,10 +298,7 @@ describe('UpdateTransaction', () => {
       payload,
     );
 
-    expect(response).toEqual({
-      ...mockedTransaction,
-      ...payload,
-    });
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith({
       ...mockedTransaction,

@@ -7,7 +7,7 @@ import { CreateTransactionRequestDTO } from '@presentation/http/dtos/create-tran
 import { makeCreateTransactionController } from '../factories/controllers/transactions/create-transaction.controller.factory';
 import { makeListTransactionsController } from '../factories/controllers/transactions/list-transactions.controller.factory';
 import { makeUpdateTransactionController } from '../factories/controllers/transactions/update-transaction.controller.factory';
-import { UpdateTransactionDTO } from '@presentation/http/dtos/update-transaction.dto';
+import { UpdateTransactionRequestDTO } from '@presentation/http/dtos/update-transaction.dto';
 
 const transactionsRoutes = Router();
 
@@ -67,7 +67,7 @@ transactionsRoutes.post(
  */
 transactionsRoutes.put(
   '/transactions/:id',
-  adaptExpressMiddleware(new ValidationMiddleware(UpdateTransactionDTO)),
+  adaptExpressMiddleware(new ValidationMiddleware(UpdateTransactionRequestDTO)),
   adaptExpressRoute(makeUpdateTransactionController()),
 );
 

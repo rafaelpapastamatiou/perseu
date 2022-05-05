@@ -1,6 +1,8 @@
-import { UpdateTransactionSignature } from '@domain/useCases/transactions/update-transaction';
-import { TransactionDTO } from '@presentation/http/dtos/transaction.dto';
-import { UpdateTransactionDTO } from '../../dtos/update-transaction.dto';
+import { UpdateTransaction } from '@application/useCases/transactions/update-transaction';
+import {
+  UpdateTransactionRequestDTO,
+  UpdateTransactionResponseDTO,
+} from '@presentation/http/dtos/update-transaction.dto';
 import { ok } from '../../helpers/http-helpers';
 import { Controller } from '../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../protocols/http';
@@ -10,14 +12,14 @@ type RequestParams = {
 };
 
 export class UpdateTransactionController implements Controller {
-  constructor(private updateTransaction: UpdateTransactionSignature) {}
+  constructor(private updateTransaction: UpdateTransaction) {}
 
   async handle({
     body,
     userId,
     params,
-  }: HttpRequest<UpdateTransactionDTO, RequestParams>): Promise<
-    HttpResponse<TransactionDTO>
+  }: HttpRequest<UpdateTransactionRequestDTO, RequestParams>): Promise<
+    HttpResponse<UpdateTransactionResponseDTO>
   > {
     const updatedTransaction = await this.updateTransaction.execute(
       {
@@ -27,8 +29,8 @@ export class UpdateTransactionController implements Controller {
       body,
     );
 
-    return ok<TransactionDTO>({
-      body: TransactionDTO.fromDomain(updatedTransaction),
+    return ok<UpdateTransactionResponseDTO>({
+      body: updatedTransaction,
     });
   }
 }

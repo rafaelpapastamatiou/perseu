@@ -2,12 +2,14 @@ import { AssetsRepository } from '@application/providers/repositories/assets.rep
 import { UpdateAssetPayload, Asset } from '@domain/entities/asset';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { NotFoundException } from '@domain/exceptions/not-found.exception';
-import {
-  UpdateAssetIdentifier,
-  UpdateAssetSignature,
-} from '@domain/useCases/assets/update-asset';
+import { UseCase } from '@domain/interfaces/use-case';
 
-export class UpdateAsset implements UpdateAssetSignature {
+export type UpdateAssetIdentifier = {
+  userId: string;
+  id: string;
+};
+
+export class UpdateAsset implements UseCase {
   constructor(private assetsRepository: AssetsRepository) {}
 
   async execute(

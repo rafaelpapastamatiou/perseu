@@ -1,22 +1,18 @@
-import {
-  AddUserSignature,
-  AddUserParams,
-  AddUserResult,
-} from '@domain/useCases/users/add-user';
 import { Hasher } from '@application/providers/crypto/hasher';
-import { User } from '@domain/entities/user';
+import { CreateUserPayload, User } from '@domain/entities/user';
 
 import { EmailAlreadyInUseException } from '../../exceptions/email-already-in-use.exception';
 import { UsersRepository } from '../../providers/repositories/users.repository';
 import { UserDTO } from '@application/dtos/user.dto';
+import { UseCase } from '@domain/interfaces/use-case';
 
-export class AddUser implements AddUserSignature {
+export class AddUser implements UseCase {
   constructor(
     private usersRepository: UsersRepository,
     private hasher: Hasher,
   ) {}
 
-  async execute(userData: AddUserParams): Promise<AddUserResult> {
+  async execute(userData: CreateUserPayload): Promise<UserDTO> {
     const { email, password } = userData;
 
     const emailAlreadyInUse = await this.usersRepository.findByEmail(email);

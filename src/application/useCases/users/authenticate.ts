@@ -3,13 +3,19 @@ import { InvalidCredentialsException } from '@application/exceptions/invalid-cre
 import { Comparer } from '@application/providers/crypto/comparer';
 import { JsonWebToken } from '@application/providers/json-web-token';
 import { UsersRepository } from '@application/providers/repositories/users.repository';
-import {
-  AuthenticateSignature,
-  AuthenticateParams,
-  AuthenticateResult,
-} from '@domain/useCases/users/authenticate';
+import { UseCase } from '@domain/interfaces/use-case';
 
-export class Authenticate implements AuthenticateSignature {
+export type AuthenticateParams = {
+  email: string;
+  password: string;
+};
+
+export type AuthenticateResult = {
+  accessToken: string;
+  user: UserDTO;
+};
+
+export class Authenticate implements UseCase {
   constructor(
     private usersRepository: UsersRepository,
     private comparer: Comparer,

@@ -1,3 +1,4 @@
+import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { AssetsRepository } from '@application/providers/repositories/assets.repository';
 import { TransactionsRepository } from '@application/providers/repositories/transactions.repository';
 import { UpdateAssetPayload } from '@domain/entities/asset';
@@ -6,17 +7,17 @@ import {
   Transaction,
 } from '@domain/entities/transaction';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
-import { AddAssetSignature } from '@domain/useCases/assets/add-asset';
-import { AddTransactionSignature } from '@domain/useCases/transactions/add-transaction';
+import { UseCase } from '@domain/interfaces/use-case';
+import { AddAsset } from '../assets/add-asset';
 
-export class AddTransaction implements AddTransactionSignature {
+export class AddTransaction implements UseCase {
   constructor(
     private transactionsRepository: TransactionsRepository,
     private assetsRepository: AssetsRepository,
-    private addAsset: AddAssetSignature,
+    private addAsset: AddAsset,
   ) {}
 
-  async execute(payload: CreateTransactionPayload): Promise<Transaction> {
+  async execute(payload: CreateTransactionPayload): Promise<TransactionDTO> {
     if (payload.quantity <= 0) {
       throw new InvalidParamException(
         'Asset quantity from transaction must be greater than zero.',
@@ -53,7 +54,7 @@ export class AddTransaction implements AddTransactionSignature {
         type: '',
       });
 
-      return transaction;
+      return TransactionDTO.fromDomain(transaction);
     }
 
     let updateAssetPayload: UpdateAssetPayload;
@@ -80,6 +81,6 @@ export class AddTransaction implements AddTransactionSignature {
 
     await this.assetsRepository.update(asset);
 
-    return transaction;
+    return TransactionDTO.fromDomain(transaction);
   }
 }

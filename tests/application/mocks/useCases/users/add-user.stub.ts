@@ -1,14 +1,16 @@
 import { UserDTO } from '@application/dtos/user.dto';
-import {
-  AddUserResult,
-  AddUserSignature,
-} from '@domain/useCases/users/add-user';
+import { AddUser } from '@application/useCases/users/add-user';
+
 import { mockedUser } from '@tests/domain/mocks/user.mock';
 
-export class AddUserStub implements AddUserSignature {
+export class AddUserStub extends AddUser {
+  constructor() {
+    super(null, null);
+  }
+
   result = UserDTO.fromDomain(mockedUser);
 
-  async execute(): Promise<AddUserResult> {
+  async execute(): Promise<UserDTO> {
     return this.result;
   }
 }

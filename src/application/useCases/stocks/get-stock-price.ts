@@ -1,10 +1,12 @@
 import { Stocks } from '@application/providers/stocks';
-import {
-  GetStockPriceParams,
-  GetStockPriceSignature,
-} from '@domain/useCases/stocks/get-stock-price';
+import { UseCase } from '@domain/interfaces/use-case';
 
-export class GetStockPrice implements GetStockPriceSignature {
+export type GetStockPriceParams = {
+  symbol: string;
+  exchange: string;
+};
+
+export class GetStockPrice implements UseCase {
   constructor(private stocksProvider: Stocks) {}
 
   async execute({ symbol, exchange }: GetStockPriceParams): Promise<number> {

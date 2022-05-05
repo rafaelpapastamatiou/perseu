@@ -1,5 +1,6 @@
+import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { AddTransaction } from '@application/useCases/transactions/add-transaction';
-import { TransactionTypes } from '@domain/entities/transaction';
+import { Transaction, TransactionTypes } from '@domain/entities/transaction';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { AddAssetStub } from '@tests/application/mocks/useCases/assets/add-asset.stub';
 import {
@@ -100,7 +101,7 @@ describe('AddTransaction', () => {
 
     const response = await sut.execute(mockedTransactionData);
 
-    expect(response).toEqual(mockedTransaction);
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith(mockedTransaction);
 
@@ -134,7 +135,7 @@ describe('AddTransaction', () => {
 
     const response = await sut.execute(mockedTransactionData);
 
-    expect(response).toEqual(mockedTransaction);
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
     expect(transactionsRepositorySpy).toHaveBeenCalledWith(mockedTransaction);
 
@@ -179,23 +180,19 @@ describe('AddTransaction', () => {
     const addAssetSpy = jest.spyOn(addAssetStub, 'execute');
 
     const mockedTransaction = createMockedTransaction();
+    mockedTransaction.type = TransactionTypes.SALE;
 
     const expectedQuantity =
       mockedAssetData.quantity - mockedTransactionData.quantity;
-
-    const expectedResult = {
-      ...mockedTransaction,
-      type: TransactionTypes.SALE,
-    };
 
     const response = await sut.execute({
       ...mockedTransactionData,
       type: TransactionTypes.SALE,
     });
 
-    expect(response).toEqual(expectedResult);
+    expect(response).toEqual(TransactionDTO.fromDomain(mockedTransaction));
 
-    expect(transactionsRepositorySpy).toHaveBeenCalledWith(expectedResult);
+    expect(transactionsRepositorySpy).toHaveBeenCalledWith(mockedTransaction);
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
       ...createMockedAsset(),

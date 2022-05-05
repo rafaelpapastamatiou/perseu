@@ -1,9 +1,9 @@
+import { TransactionDTO } from '@application/dtos/transaction.dto';
 import {
   CreateTransactionPayload,
   Transaction,
   TransactionTypes,
 } from '@domain/entities/transaction';
-import { UpdateTransactionIdentifier } from '@domain/useCases/transactions/update-transaction';
 
 export const mockedTransactionData: CreateTransactionPayload = {
   date: new Date(),
@@ -20,7 +20,7 @@ export const mockedTransactionId = '507f191e810c19729de860ea';
 export const createMockedTransaction = () =>
   Transaction.create(mockedTransactionId, mockedTransactionData);
 
-export const mockedAssetIdentifier: UpdateTransactionIdentifier = {
+export const mockedAssetIdentifier = {
   id: 'fake-id',
   userId: 'fake-user-id',
 };

@@ -1,11 +1,11 @@
-import { ListTransactionsSignature } from '@domain/useCases/transactions/list-transactionts';
-import { TransactionDTO } from '@presentation/http/dtos/transaction.dto';
+import { TransactionDTO } from '@application/dtos/transaction.dto';
+import { ListTransactions } from '@application/useCases/transactions/list-transactions';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
 
 export class ListTransactionsController implements Controller {
-  constructor(private listTransactions: ListTransactionsSignature) {}
+  constructor(private listTransactions: ListTransactions) {}
 
   async handle({
     userId,
@@ -15,9 +15,7 @@ export class ListTransactionsController implements Controller {
     });
 
     return ok<TransactionDTO[]>({
-      body: transactions.map((transaction) =>
-        TransactionDTO.fromDomain(transaction),
-      ),
+      body: transactions,
     });
   }
 }

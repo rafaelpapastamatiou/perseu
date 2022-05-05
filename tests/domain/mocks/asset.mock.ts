@@ -1,5 +1,4 @@
 import { Asset, CreateAssetPayload } from '@domain/entities/asset';
-import { UpdateAssetIdentifier } from '@domain/useCases/assets/update-asset';
 
 export const mockedAssetData: CreateAssetPayload = {
   exchange: 'fake-exchange',
@@ -14,7 +13,7 @@ export const mockedAssetId = '507f191e810c19729de860ea';
 export const createMockedAsset = () =>
   Asset.create(mockedAssetId, mockedAssetData);
 
-export const mockedAssetIdentifier: UpdateAssetIdentifier = {
+export const mockedAssetIdentifier = {
   id: 'fake-id',
   userId: 'fake-user-id',
 };

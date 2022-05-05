@@ -1,7 +1,8 @@
+import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { TransactionTypes } from '@domain/entities/transaction';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 
-export class UpdateTransactionDTO {
+export class UpdateTransactionRequestDTO {
   @IsNumber()
   @IsOptional()
   quantity?: number;
@@ -14,3 +15,5 @@ export class UpdateTransactionDTO {
   @IsOptional()
   type?: TransactionTypes;
 }
+
+export type UpdateTransactionResponseDTO = TransactionDTO;

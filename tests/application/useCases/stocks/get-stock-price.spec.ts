@@ -1,5 +1,7 @@
-import { GetStockPrice } from '@application/useCases/stocks/get-stock-price';
-import { GetStockPriceParams } from '@domain/useCases/stocks/get-stock-price';
+import {
+  GetStockPrice,
+  GetStockPriceParams,
+} from '@application/useCases/stocks/get-stock-price';
 import { StocksStub } from '@tests/infra/mocks/providers/stocks.stub';
 
 const makeSut = () => {

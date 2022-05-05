@@ -1,16 +1,13 @@
-import { AuthenticateSignature } from '@domain/useCases/users/authenticate';
-import { AddUserSignature } from '@domain/useCases/users/add-user';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
 import { SignUpRequestDTO } from '../dtos/signup.dto';
 import { SignInResponseDTO } from '../dtos/signin.dto';
+import { Authenticate } from '@application/useCases/users/authenticate';
+import { AddUser } from '@application/useCases/users/add-user';
 
 export class SignUpController implements Controller {
-  constructor(
-    private addUser: AddUserSignature,
-    private authenticate: AuthenticateSignature,
-  ) {}
+  constructor(private addUser: AddUser, private authenticate: Authenticate) {}
 
   async handle({
     body,

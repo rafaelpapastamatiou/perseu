@@ -1,9 +1,9 @@
 import { AssetsRepository } from '@application/providers/repositories/assets.repository';
 import { CreateAssetPayload, Asset } from '@domain/entities/asset';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
-import { AddAssetSignature } from '@domain/useCases/assets/add-asset';
+import { UseCase } from '@domain/interfaces/use-case';
 
-export class AddAsset implements AddAssetSignature {
+export class AddAsset implements UseCase {
   constructor(private assetsRepository: AssetsRepository) {}
 
   async execute(payload: CreateAssetPayload): Promise<Asset> {

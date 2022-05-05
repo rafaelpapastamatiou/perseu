@@ -1,11 +1,11 @@
-import { AuthenticateSignature } from '@domain/useCases/users/authenticate';
+import { Authenticate } from '@application/useCases/users/authenticate';
 import { SignInRequestDTO, SignInResponseDTO } from '../dtos/signin.dto';
 import { ok } from '../helpers/http-helpers';
 import { Controller } from '../protocols/controller';
 import { HttpRequest, HttpResponse } from '../protocols/http';
 
 export class SignInController implements Controller {
-  constructor(private authenticate: AuthenticateSignature) {}
+  constructor(private authenticate: Authenticate) {}
 
   async handle({
     body,
