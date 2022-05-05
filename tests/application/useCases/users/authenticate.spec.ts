@@ -4,6 +4,7 @@ import { mockedUser } from '@tests/domain/mocks/user.mock';
 import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
 import { HashComparerStub } from '@tests/infra/mocks/providers/comparer.stub';
 import { JwtStub } from '@tests/infra/mocks/providers/jwt.stub';
+import { UserDTO } from '@application/dtos/user.dto';
 
 const makeSut = () => {
   const usersRepositoryStub = new UsersRepositoryStub();
@@ -34,7 +35,7 @@ describe('Authenticate', () => {
     });
 
     expect(result.accessToken).toBe('fake-token');
-    expect(result.user).toMatchObject(mockedUser);
+    expect(result.user).toEqual(UserDTO.fromDomain(mockedUser));
   });
 
   it('should not be able to authenticate with invalid email', async () => {

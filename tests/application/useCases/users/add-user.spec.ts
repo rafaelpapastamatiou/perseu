@@ -4,6 +4,7 @@ import { mockedUser, mockedUserData } from '@tests/domain/mocks/user.mock';
 import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
 import { HasherStub } from '@tests/infra/mocks/providers/hasher.stub';
 import { User } from '@domain/entities/user';
+import { UserDTO } from '@application/dtos/user.dto';
 
 const makeSut = () => {
   const usersRepositoryStub = new UsersRepositoryStub();
@@ -24,7 +25,7 @@ describe('AddUser', () => {
 
     expect(usersRepositoryAddUserSpy).toHaveBeenCalledWith(mockedUser);
 
-    expect(user).toMatchObject(mockedUser);
+    expect(user).toEqual(UserDTO.fromDomain(mockedUser));
   });
 
   it('should not be able to create a new User with an already used e-mail', async () => {

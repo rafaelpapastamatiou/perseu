@@ -11,5 +11,5 @@ export type AuthenticateParams = {
 
 export type AuthenticateResult = {
   accessToken: string;
-  user: User;
+  user: Omit<User, 'password'>;
 };

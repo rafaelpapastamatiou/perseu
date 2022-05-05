@@ -1,7 +1,7 @@
-import { User } from '../entities/user';
+import { User } from '@domain/entities/user';
 
 export interface AddUserSignature {
-  execute(userData: AddUserParams): Promise<User>;
+  execute(userData: AddUserParams): Promise<AddUserResult>;
 }
 
 export type AddUserParams = {
@@ -14,4 +14,4 @@ export type AddUserParams = {
   password: string;
 };
 
-export type AddUserResult = User;
+export type AddUserResult = Omit<User, 'password'>;

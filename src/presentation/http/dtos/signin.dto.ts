@@ -1,5 +1,5 @@
+import { UserDTO } from '@application/dtos/user.dto';
 import { IsEmail, IsString, MinLength } from 'class-validator';
-import { UserDTO } from './user.dto';
 
 export class SignInRequestDTO {
   @IsEmail()

@@ -8,6 +8,7 @@ import { User } from '@domain/entities/user';
 
 import { EmailAlreadyInUseException } from '../../exceptions/email-already-in-use.exception';
 import { UsersRepository } from '../../providers/repositories/users.repository';
+import { UserDTO } from '@application/dtos/user.dto';
 
 export class AddUser implements AddUserSignature {
   constructor(
@@ -40,6 +41,6 @@ export class AddUser implements AddUserSignature {
 
     await this.usersRepository.add(user);
 
-    return user;
+    return UserDTO.fromDomain(user);
   }
 }

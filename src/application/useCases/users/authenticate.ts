@@ -1,3 +1,4 @@
+import { UserDTO } from '@application/dtos/user.dto';
 import { InvalidCredentialsException } from '@application/exceptions/invalid-credentials.exception';
 import { Comparer } from '@application/providers/crypto/comparer';
 import { JsonWebToken } from '@application/providers/json-web-token';
@@ -36,7 +37,7 @@ export class Authenticate implements AuthenticateSignature {
 
     return {
       accessToken: token,
-      user,
+      user: UserDTO.fromDomain(user),
     };
   }
 }

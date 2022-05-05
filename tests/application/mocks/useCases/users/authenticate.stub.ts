@@ -1,3 +1,4 @@
+import { UserDTO } from '@application/dtos/user.dto';
 import {
   AuthenticateResult,
   AuthenticateSignature,
@@ -7,7 +8,7 @@ import { mockedUser } from '@tests/domain/mocks/user.mock';
 export class AuthenticateStub implements AuthenticateSignature {
   result = {
     accessToken: 'token',
-    user: mockedUser,
+    user: UserDTO.fromDomain(mockedUser),
   };
 
   async execute(): Promise<AuthenticateResult> {
