@@ -8,13 +8,11 @@ import { User } from '@domain/entities/user';
 
 import { EmailAlreadyInUseException } from '../../exceptions/email-already-in-use.exception';
 import { UsersRepository } from '../../providers/repositories/users.repository';
-import { Serializer } from '@application/providers/serializer';
 
 export class AddUser implements AddUserSignature {
   constructor(
     private usersRepository: UsersRepository,
     private hasher: Hasher,
-    private serializer: Serializer,
   ) {}
 
   async execute(userData: AddUserParams): Promise<AddUserResult> {
@@ -42,6 +40,6 @@ export class AddUser implements AddUserSignature {
 
     await this.usersRepository.add(user);
 
-    return this.serializer.serialize(user);
+    return user;
   }
 }

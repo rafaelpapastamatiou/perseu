@@ -1,25 +1,15 @@
 import { EmailAlreadyInUseException } from '@application/exceptions/email-already-in-use.exception';
 import { AddUser } from '@application/useCases/users/add-user';
-import {
-  mockedUser,
-  mockedUserData,
-  mockedUserWithoutPassword,
-} from '@tests/domain/mocks/user.mock';
+import { mockedUser, mockedUserData } from '@tests/domain/mocks/user.mock';
 import { UsersRepositoryStub } from '@tests/infra/mocks/repositories/users.repository.stub';
 import { HasherStub } from '@tests/infra/mocks/providers/hasher.stub';
-import { UserSerializerStub } from '@tests/infra/mocks/providers/serializers/user.serializer.stub';
 import { User } from '@domain/entities/user';
 
 const makeSut = () => {
   const usersRepositoryStub = new UsersRepositoryStub();
   const hasherStub = new HasherStub();
-  const userSerializerStub = new UserSerializerStub();
 
-  const createUser = new AddUser(
-    usersRepositoryStub,
-    hasherStub,
-    userSerializerStub,
-  );
+  const createUser = new AddUser(usersRepositoryStub, hasherStub);
 
   return { sut: createUser, usersRepositoryStub, hasherStub };
 };
@@ -34,7 +24,7 @@ describe('AddUser', () => {
 
     expect(usersRepositoryAddUserSpy).toHaveBeenCalledWith(mockedUser);
 
-    expect(user).toEqual(mockedUserWithoutPassword);
+    expect(user).toMatchObject(mockedUser);
   });
 
   it('should not be able to create a new User with an already used e-mail', async () => {

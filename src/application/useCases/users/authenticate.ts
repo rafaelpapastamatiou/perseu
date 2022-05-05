@@ -2,7 +2,6 @@ import { InvalidCredentialsException } from '@application/exceptions/invalid-cre
 import { Comparer } from '@application/providers/crypto/comparer';
 import { JsonWebToken } from '@application/providers/json-web-token';
 import { UsersRepository } from '@application/providers/repositories/users.repository';
-import { Serializer } from '@application/providers/serializer';
 import {
   AuthenticateSignature,
   AuthenticateParams,
@@ -14,7 +13,6 @@ export class Authenticate implements AuthenticateSignature {
     private usersRepository: UsersRepository,
     private comparer: Comparer,
     private jwt: JsonWebToken,
-    private serializer: Serializer,
   ) {}
 
   async execute(credentials: AuthenticateParams): Promise<AuthenticateResult> {
@@ -38,7 +36,7 @@ export class Authenticate implements AuthenticateSignature {
 
     return {
       accessToken: token,
-      user: this.serializer.serialize(user),
+      user,
     };
   }
 }
