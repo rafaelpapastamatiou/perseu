@@ -11,9 +11,8 @@ export type HttpRequest<B extends Body = Body, P = Params, Q = Query> = {
   [key: string]: any;
 };
 
-export type HttpResponse<B, P = any> = {
+export type HttpResponse<B> = {
   statusCode: number;
   body?: B;
-  params?: P;
   [key: string]: any;
 };

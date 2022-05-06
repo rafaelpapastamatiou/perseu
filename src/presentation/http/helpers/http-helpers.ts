@@ -18,7 +18,6 @@ export function getHttpExceptionCodeFromDomainException(
 
 export type HttpResponsePayload<B> = {
   body?: B;
-  params?: any;
   [key: string]: any;
 };
 
@@ -29,67 +28,55 @@ export type HttpExceptionResponseBody = {
 
 export function ok<B>({
   body,
-  params,
   ...rest
 }: HttpResponsePayload<B>): HttpResponse<B> {
   return {
     statusCode: 200,
     body,
-    params,
     ...rest,
   };
 }
 
 export function created<B>({
   body,
-  params,
   ...rest
 }: HttpResponsePayload<B>): HttpResponse<B> {
   return {
     statusCode: 201,
     body,
-    params,
     ...rest,
   };
 }
 
 export function badRequest({
   body,
-  params,
   ...rest
 }: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 400,
     body,
-    params,
-
     ...rest,
   };
 }
 
 export function unauthorized({
   body,
-  params,
   ...rest
 }: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 401,
     body,
-    params,
-
     ...rest,
   };
 }
 
 export function serverError({
   body,
-  params,
   ...rest
 }: HttpResponsePayload<HttpExceptionResponseBody>): HttpResponse<HttpExceptionResponseBody> {
   return {
     statusCode: 500,
     body,
-    params,
     ...rest,
   };
 }
