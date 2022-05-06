@@ -30,29 +30,24 @@ export class UpdateTransaction implements UpdateTransactionInterface {
     { id, userId }: UpdateTransactionIdentifier,
     payload: UpdateTransactionPayload,
   ): Promise<TransactionDTO> {
-    if (payload.quantity !== undefined && payload.quantity <= 0) {
+    if (payload.quantity !== undefined && payload.quantity <= 0)
       throw new InvalidParamException(
         'Asset quantity of transaction must be greater than zero.',
       );
-    }
 
     const transaction = await this.transactionsRepository.findById({
       id,
       userId,
     });
 
-    if (!transaction) {
-      throw new NotFoundException('Transaction not found.');
-    }
+    if (!transaction) throw new NotFoundException('Transaction not found.');
 
     const asset = await this.assetsRepository.findBySymbol({
       userId,
       symbol: transaction.symbol,
     });
 
-    if (!asset) {
-      throw new NotFoundException('Asset not found.');
-    }
+    if (!asset) throw new NotFoundException('Asset not found.');
 
     let updateAssetPayload: UpdateAssetPayload;
 
@@ -65,24 +60,21 @@ export class UpdateTransaction implements UpdateTransactionInterface {
             const newAssetQuantity =
               asset.quantity - transaction.quantity + payload.quantity;
 
-            if (newAssetQuantity < 0) {
+            if (newAssetQuantity < 0)
               throw new InvalidParamException(
                 'Can´t update purchase transaction because he result asset quantity is negative.',
               );
-            }
 
             updateAssetPayload = {
-              ...(updateAssetPayload || {}),
-              quantity:
-                asset.quantity - transaction.quantity + payload.quantity,
+              quantity: newAssetQuantity,
             };
           } else {
             updateAssetPayload = {
-              ...(updateAssetPayload || {}),
               quantity:
                 asset.quantity + transaction.quantity + payload.quantity,
             };
           }
+
           break;
 
         case TransactionTypes.SALE:
@@ -90,14 +82,12 @@ export class UpdateTransaction implements UpdateTransactionInterface {
             const newAssetQuantity =
               asset.quantity + transaction.quantity - payload.quantity;
 
-            if (newAssetQuantity < 0) {
+            if (newAssetQuantity < 0)
               throw new InvalidParamException(
                 `Sold assets quantity is greater than current assets quantity.`,
               );
-            }
 
             updateAssetPayload = {
-              ...(updateAssetPayload || {}),
               quantity: newAssetQuantity,
             };
           } else {
@@ -111,11 +101,10 @@ export class UpdateTransaction implements UpdateTransactionInterface {
             }
 
             updateAssetPayload = {
-              ...(updateAssetPayload || {}),
-              quantity:
-                asset.quantity - transaction.quantity - payload.quantity,
+              quantity: newAssetQuantity,
             };
           }
+
           break;
 
         default:
