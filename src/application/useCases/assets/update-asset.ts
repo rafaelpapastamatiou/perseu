@@ -9,7 +9,12 @@ export type UpdateAssetIdentifier = {
   id: string;
 };
 
-export class UpdateAsset implements UseCase {
+export type UpdateAssetInterface = UseCase<
+  [UpdateAssetIdentifier, UpdateAssetPayload],
+  Asset
+>;
+
+export class UpdateAsset implements UpdateAssetInterface {
   constructor(private assetsRepository: AssetsRepository) {}
 
   async execute(

@@ -6,7 +6,9 @@ export type GetStockPriceParams = {
   exchange: string;
 };
 
-export class GetStockPrice implements UseCase {
+export type GetStockPriceInterface = UseCase<[GetStockPriceParams], number>;
+
+export class GetStockPrice implements GetStockPriceInterface {
   constructor(private stocksProvider: Stocks) {}
 
   async execute({ symbol, exchange }: GetStockPriceParams): Promise<number> {

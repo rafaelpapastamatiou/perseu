@@ -6,7 +6,12 @@ export type ListTransactionsIdentifier = {
   userId: string;
 };
 
-export class ListTransactions implements UseCase {
+export type ListTransactionsInterface = UseCase<
+  [ListTransactionsIdentifier],
+  TransactionDTO[]
+>;
+
+export class ListTransactions implements ListTransactionsInterface {
   constructor(private transactionsRepository: TransactionsRepository) {}
 
   async execute({

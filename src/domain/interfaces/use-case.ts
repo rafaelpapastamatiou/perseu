@@ -1,3 +1,3 @@
-export interface UseCase {
-  execute(...params: any[]): Promise<any> | any;
+export interface UseCase<P extends any[], R> {
+  execute(...params: P): Promise<R> | R;
 }

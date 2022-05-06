@@ -1,11 +1,11 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
-import { ListTransactions } from '@application/useCases/transactions/list-transactions';
+import { ListTransactionsInterface } from '@application/useCases/transactions/list-transactions';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
 
 export class ListTransactionsController implements Controller {
-  constructor(private listTransactions: ListTransactions) {}
+  constructor(private listTransactions: ListTransactionsInterface) {}
 
   async handle({
     userId,

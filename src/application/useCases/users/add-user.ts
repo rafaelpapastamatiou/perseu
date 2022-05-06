@@ -6,7 +6,9 @@ import { UsersRepository } from '../../providers/repositories/users.repository';
 import { UserDTO } from '@application/dtos/user.dto';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export class AddUser implements UseCase {
+export type AddUserInterface = UseCase<[CreateUserPayload], UserDTO>;
+
+export class AddUser implements AddUserInterface {
   constructor(
     private usersRepository: UsersRepository,
     private hasher: Hasher,

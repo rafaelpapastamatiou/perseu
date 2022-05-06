@@ -3,7 +3,9 @@ import { CreateAssetPayload, Asset } from '@domain/entities/asset';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export class AddAsset implements UseCase {
+export type AddAssetInterface = UseCase<[CreateAssetPayload], Asset>;
+
+export class AddAsset implements AddAssetInterface {
   constructor(private assetsRepository: AssetsRepository) {}
 
   async execute(payload: CreateAssetPayload): Promise<Asset> {

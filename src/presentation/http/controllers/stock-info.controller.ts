@@ -1,4 +1,4 @@
-import { GetStockInfo } from '@application/useCases/stocks/get-stock-info';
+import { GetStockInfoInterface } from '@application/useCases/stocks/get-stock-info';
 import {
   StockInfoRequestDTO,
   StockInfoResponseDTO,
@@ -8,7 +8,7 @@ import { Controller } from '../protocols/controller';
 import { HttpRequest, HttpResponse } from '../protocols/http';
 
 export class StockInfoController implements Controller {
-  constructor(private getStockInfo: GetStockInfo) {}
+  constructor(private getStockInfo: GetStockInfoInterface) {}
 
   async handle({
     query,

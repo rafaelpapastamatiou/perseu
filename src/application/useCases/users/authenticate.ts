@@ -15,7 +15,12 @@ export type AuthenticateResult = {
   user: UserDTO;
 };
 
-export class Authenticate implements UseCase {
+export type AuthenticateInterface = UseCase<
+  [AuthenticateParams],
+  AuthenticateResult
+>;
+
+export class Authenticate implements AuthenticateInterface {
   constructor(
     private usersRepository: UsersRepository,
     private comparer: Comparer,

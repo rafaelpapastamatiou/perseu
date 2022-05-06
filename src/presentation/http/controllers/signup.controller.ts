@@ -3,11 +3,14 @@ import { Controller } from '@presentation/http/protocols/controller';
 import { HttpRequest, HttpResponse } from '@presentation/http/protocols/http';
 import { SignUpRequestDTO } from '../dtos/signup.dto';
 import { SignInResponseDTO } from '../dtos/signin.dto';
-import { Authenticate } from '@application/useCases/users/authenticate';
-import { AddUser } from '@application/useCases/users/add-user';
+import { AuthenticateInterface } from '@application/useCases/users/authenticate';
+import { AddUserInterface } from '@application/useCases/users/add-user';
 
 export class SignUpController implements Controller {
-  constructor(private addUser: AddUser, private authenticate: Authenticate) {}
+  constructor(
+    private addUser: AddUserInterface,
+    private authenticate: AuthenticateInterface,
+  ) {}
 
   async handle({
     body,

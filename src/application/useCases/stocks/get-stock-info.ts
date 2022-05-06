@@ -13,7 +13,12 @@ export type GetStockInfoParams = {
   exchange: string;
 };
 
-export class GetStockInfo implements UseCase {
+export type GetStockInfoInterface = UseCase<
+  [GetStockInfoParams],
+  GetStockInfoResult
+>;
+
+export class GetStockInfo implements GetStockInfoInterface {
   constructor(private stocksProvider: Stocks) {}
 
   async execute({

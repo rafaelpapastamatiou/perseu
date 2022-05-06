@@ -15,7 +15,12 @@ export type UpdateTransactionIdentifier = {
   id: string;
 };
 
-export class UpdateTransaction implements UseCase {
+export type UpdateTransactionInterface = UseCase<
+  [UpdateTransactionIdentifier, UpdateTransactionPayload],
+  TransactionDTO
+>;
+
+export class UpdateTransaction implements UpdateTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
     private assetsRepository: AssetsRepository,

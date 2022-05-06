@@ -1,4 +1,4 @@
-import { UpdateTransaction } from '@application/useCases/transactions/update-transaction';
+import { UpdateTransactionInterface } from '@application/useCases/transactions/update-transaction';
 import {
   UpdateTransactionRequestDTO,
   UpdateTransactionResponseDTO,
@@ -12,7 +12,7 @@ type RequestParams = {
 };
 
 export class UpdateTransactionController implements Controller {
-  constructor(private updateTransaction: UpdateTransaction) {}
+  constructor(private updateTransaction: UpdateTransactionInterface) {}
 
   async handle({
     body,

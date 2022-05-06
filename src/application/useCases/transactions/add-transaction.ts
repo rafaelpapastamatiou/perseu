@@ -8,13 +8,18 @@ import {
 } from '@domain/entities/transaction';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { UseCase } from '@domain/interfaces/use-case';
-import { AddAsset } from '../assets/add-asset';
+import { AddAssetInterface } from '../assets/add-asset';
 
-export class AddTransaction implements UseCase {
+export type AddTransactionInterface = UseCase<
+  [CreateTransactionPayload],
+  TransactionDTO
+>;
+
+export class AddTransaction implements AddTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
     private assetsRepository: AssetsRepository,
-    private addAsset: AddAsset,
+    private addAsset: AddAssetInterface,
   ) {}
 
   async execute(payload: CreateTransactionPayload): Promise<TransactionDTO> {

@@ -1,11 +1,11 @@
-import { GetStockPrice } from '@application/useCases/stocks/get-stock-price';
+import { GetStockPriceInterface } from '@application/useCases/stocks/get-stock-price';
 import { StockPriceRequestDTO } from '../dtos/stock-price.dto';
 import { ok } from '../helpers/http-helpers';
 import { Controller } from '../protocols/controller';
 import { HttpRequest, HttpResponse } from '../protocols/http';
 
 export class StockPriceController implements Controller {
-  constructor(private getStockPrice: GetStockPrice) {}
+  constructor(private getStockPrice: GetStockPriceInterface) {}
 
   async handle({
     query,

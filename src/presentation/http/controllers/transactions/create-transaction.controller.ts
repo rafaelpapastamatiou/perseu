@@ -1,12 +1,12 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
-import { AddTransaction } from '@application/useCases/transactions/add-transaction';
+import { AddTransactionInterface } from '@application/useCases/transactions/add-transaction';
 import { CreateTransactionRequestDTO } from '../../dtos/create-transaction.dto';
 import { ok } from '../../helpers/http-helpers';
 import { Controller } from '../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../protocols/http';
 
 export class CreateTransactionController implements Controller {
-  constructor(private addTransaction: AddTransaction) {}
+  constructor(private addTransaction: AddTransactionInterface) {}
 
   async handle(
     request: HttpRequest<CreateTransactionRequestDTO>,
