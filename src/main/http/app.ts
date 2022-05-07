@@ -20,6 +20,8 @@ export async function setupApp(): Promise<Express> {
     setupSwagger(app);
   }
 
+  await import('./schedules/twelvedata-schedules');
+
   app.use(router);
 
   return app;
