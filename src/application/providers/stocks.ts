@@ -1,6 +1,7 @@
 export interface Stocks {
   findPriceBySymbol(params: FindStockParams): Promise<number>;
   findBySymbol(params: FindStockParams): Promise<StockResult>;
+  find(): Promise<FetchStockResult[]>;
 }
 
 export type FindStockParams = {
@@ -13,4 +14,13 @@ export type StockResult = {
   exchange: string;
   name: string;
   currency: string;
+};
+
+export type FetchStockResult = {
+  symbol: string;
+  currency: string;
+  exchange: string;
+  mic_code: string;
+  country: string;
+  type: string;
 };
