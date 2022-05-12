@@ -19,6 +19,7 @@ function createTwelveDataClient() {
 
   client.interceptors.request.use(
     function (config) {
+      config.params = config.params || {};
       config.params['apikey'] = process.env.TWELVEDATA_APIKEY;
 
       return config;
