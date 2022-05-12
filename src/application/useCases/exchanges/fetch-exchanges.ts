@@ -16,7 +16,7 @@ export class FetchExchanges implements FetchExchangesInterface {
 
     const idsArray: string[] = [];
 
-    for (const _exchangeData of exchangesDataArray) {
+    for (const _ of exchangesDataArray) {
       const id = await this.exchangesRepository.generateId();
 
       idsArray.push(id);
