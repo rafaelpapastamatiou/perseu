@@ -1,4 +1,5 @@
 import {
+  FetchStockResult,
   FindStockParams,
   StockResult,
   Stocks,
@@ -14,12 +15,22 @@ type TwelvedataStockInfoData = {
   exchange: string;
 };
 
+type TwelvedataStockData = TwelvedataStockInfoData & {
+  type: string;
+  mic_code: string;
+  country: string;
+};
+
 type TwelvedataStockInfoResponse = {
   data: TwelvedataStockInfoData[];
 };
 
 type TwelvedataStockPriceResponse = {
   price: number;
+};
+
+type TwelvedataStocksResponse = {
+  data: TwelvedataStockData[];
 };
 
 export class TwelvedataStocks implements Stocks {
@@ -95,6 +106,14 @@ export class TwelvedataStocks implements Stocks {
     } catch (err) {
       handleTwelvedataProviderError(symbol, err);
     }
+  }
+
+  async find(): Promise<FetchStockResult[]> {
+    const {
+      data: { data: stocks },
+    } = await this.client.get<TwelvedataStocksResponse>('stocks');
+
+    return stocks;
   }
 }
 
