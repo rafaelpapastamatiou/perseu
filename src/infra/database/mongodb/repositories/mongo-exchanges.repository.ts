@@ -70,7 +70,13 @@ export class MongoExchangesRepository implements ExchangesRepository {
       MongoHelper.mapToDocument<ExchangeDocument>(exchange),
     );
 
-    await this.exchangeModel.bulkSave(exchangeDocuments);
+    await this.exchangeModel.bulkWrite(
+      exchangeDocuments.map((document) => ({
+        insertOne: {
+          document,
+        },
+      })),
+    );
   }
 
   async generateId(): Promise<string> {
