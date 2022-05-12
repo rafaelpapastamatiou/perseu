@@ -10,7 +10,9 @@
     "test": "DOTENV_CONFIG_PATH=.env.test jest --passWithNoTests --runInBand --no-cache",
     "test:unit": "npm test -- --watch -c jest-unit.config.js",
     "test:integration": "npm test -- --watch -c jest-integration.config.js",
-    "test:ci": "npm test -- --coverage -c jest.config.js"
+    "test:ci": "npm test -- --coverage -c jest.config.js",
+    "mqc:dev": "DOTENV_CONFIG_PATH=.env.development ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r dotenv/config -r tsconfig-paths/register src/main/rabbitmq/consumers/index.ts",
+    "mqp:dev": "DOTENV_CONFIG_PATH=.env.development ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r dotenv/config -r tsconfig-paths/register src/main/rabbitmq/producers/index.ts"
   },
   "dependencies": {
     "amqplib": "^0.8.0",
