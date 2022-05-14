@@ -1,6 +1,6 @@
 import { makeRabbitMQ } from '@main/factories/providers/rabbitmq.factory';
 import { makeFetchExchanges } from '@main/factories/useCases/exchanges/fetch-exchanges.factory';
-import { makeFetchStocks } from '@main/factories/useCases/stocks/fetch-stocks.factory';
+import { makeFetchStocks } from '@main/factories/useCases/assets/fetch-stocks.factory';
 import {
   twelvedataSyncAssets,
   twelvedataSyncExchanges,

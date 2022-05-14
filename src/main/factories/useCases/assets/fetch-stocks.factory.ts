@@ -1,4 +1,4 @@
-import { FetchStocks } from '@application/useCases/stocks/fetch-stocks';
+import { FetchStocks } from '@application/useCases/assets/fetch-stocks';
 import { MongoStocksRepository } from '@infra/database/mongodb/repositories/mongo-stocks.repository';
 import { Redis } from '@infra/redis';
 import { TwelvedataStocks } from '@infra/twelvedata/twelvedata-stocks';
