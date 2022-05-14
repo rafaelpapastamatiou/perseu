@@ -1,6 +1,6 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { UpdateTransaction } from '@application/useCases/transactions/update-transaction';
-import { Asset } from '@domain/entities/asset';
+import { UserAsset } from '@domain/entities/user-asset';
 import {
   Transaction,
   TransactionTypes,
@@ -9,21 +9,21 @@ import {
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { NotFoundException } from '@domain/exceptions/not-found.exception';
 import {
-  createMockedAsset,
-  mockedAssetData,
-  mockedAssetId,
-} from '@tests/domain/mocks/asset.mock';
+  createMockedUserAsset,
+  mockedUserAssetData,
+  mockedUserAssetId,
+} from '@tests/domain/mocks/user-asset.mock';
 import {
   createMockedTransaction,
   mockedTransactionData,
   mockedTransactionId,
 } from '@tests/domain/mocks/transaction.mock';
-import { AssetsRepositoryStub } from '@tests/infra/mocks/repositories/assets.repository.stub';
+import { UsersAssetsRepositoryStub } from '@tests/infra/mocks/repositories/users-assets.repository.stub';
 import { TransactionsRepositoryStub } from '@tests/infra/mocks/repositories/transactions.repository.stub';
 
 const makeSut = () => {
   const transactionsRepositoryStub = new TransactionsRepositoryStub();
-  const assetsRepositoryStub = new AssetsRepositoryStub();
+  const assetsRepositoryStub = new UsersAssetsRepositoryStub();
 
   const sut = new UpdateTransaction(
     transactionsRepositoryStub,
@@ -151,9 +151,9 @@ describe('UpdateTransaction', () => {
     });
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
+      ...createMockedUserAsset(),
       quantity:
-        mockedAssetData.quantity -
+        mockedUserAssetData.quantity -
         mockedTransactionData.quantity +
         payload.quantity,
     });
@@ -170,8 +170,8 @@ describe('UpdateTransaction', () => {
     const assetsRepositorySpy = jest.spyOn(assetsRepositoryStub, 'update');
 
     const mockedAssetQuantity = 20;
-    const asset = Asset.create(mockedAssetId, {
-      ...mockedAssetData,
+    const asset = UserAsset.create(mockedUserAssetId, {
+      ...mockedUserAssetData,
       quantity: mockedAssetQuantity,
     });
 
@@ -204,7 +204,7 @@ describe('UpdateTransaction', () => {
     });
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
+      ...createMockedUserAsset(),
       quantity:
         mockedAssetQuantity - mockedTransactionData.quantity - payload.quantity,
     });
@@ -254,9 +254,9 @@ describe('UpdateTransaction', () => {
     });
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
+      ...createMockedUserAsset(),
       quantity:
-        mockedAssetData.quantity +
+        mockedUserAssetData.quantity +
         mockedTransactionData.quantity -
         payload.quantity,
     });
@@ -306,9 +306,9 @@ describe('UpdateTransaction', () => {
     });
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
+      ...createMockedUserAsset(),
       quantity:
-        mockedAssetData.quantity +
+        mockedUserAssetData.quantity +
         mockedTransactionData.quantity +
         payload.quantity,
     });

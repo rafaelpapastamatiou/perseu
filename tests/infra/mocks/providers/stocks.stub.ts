@@ -1,4 +1,5 @@
 import {
+  FetchStockResult,
   FindStockParams,
   StockResult,
   Stocks,
@@ -16,5 +17,18 @@ export class StocksStub implements Stocks {
       currency: 'USD',
       name: 'fake-name',
     };
+  }
+
+  async find(): Promise<FetchStockResult[]> {
+    return [
+      {
+        symbol: 'fake-symbol',
+        exchange: 'fake-exchange',
+        currency: 'USD',
+        country: 'fake-country',
+        mic_code: 'fake-mic-mode',
+        type: 'fake-type',
+      },
+    ];
   }
 }

@@ -1,23 +1,23 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
 import { AddTransaction } from '@application/useCases/transactions/add-transaction';
-import { Transaction, TransactionTypes } from '@domain/entities/transaction';
+import { TransactionTypes } from '@domain/entities/transaction';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
-import { AddAssetStub } from '@tests/application/mocks/useCases/assets/add-asset.stub';
+import { AddUserAssetStub } from '@tests/application/mocks/useCases/assets/add-user-asset.stub';
 import {
-  createMockedAsset,
-  mockedAssetData,
-} from '@tests/domain/mocks/asset.mock';
+  createMockedUserAsset,
+  mockedUserAssetData,
+} from '@tests/domain/mocks/user-asset.mock';
 import {
   createMockedTransaction,
   mockedTransactionData,
 } from '@tests/domain/mocks/transaction.mock';
-import { AssetsRepositoryStub } from '@tests/infra/mocks/repositories/assets.repository.stub';
+import { UsersAssetsRepositoryStub } from '@tests/infra/mocks/repositories/users-assets.repository.stub';
 import { TransactionsRepositoryStub } from '@tests/infra/mocks/repositories/transactions.repository.stub';
 
 const makeSut = () => {
   const transactionsRepositoryStub = new TransactionsRepositoryStub();
-  const assetsRepositoryStub = new AssetsRepositoryStub();
-  const addAssetStub = new AddAssetStub();
+  const assetsRepositoryStub = new UsersAssetsRepositoryStub();
+  const addAssetStub = new AddUserAssetStub();
 
   const sut = new AddTransaction(
     transactionsRepositoryStub,
@@ -140,8 +140,8 @@ describe('AddTransaction', () => {
     expect(transactionsRepositorySpy).toHaveBeenCalledWith(mockedTransaction);
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
-      quantity: mockedAssetData.quantity + mockedTransactionData.quantity,
+      ...createMockedUserAsset(),
+      quantity: mockedUserAssetData.quantity + mockedTransactionData.quantity,
     });
 
     expect(addAssetSpy).not.toHaveBeenCalled();
@@ -183,7 +183,7 @@ describe('AddTransaction', () => {
     mockedTransaction.type = TransactionTypes.SALE;
 
     const expectedQuantity =
-      mockedAssetData.quantity - mockedTransactionData.quantity;
+      mockedUserAssetData.quantity - mockedTransactionData.quantity;
 
     const response = await sut.execute({
       ...mockedTransactionData,
@@ -195,7 +195,7 @@ describe('AddTransaction', () => {
     expect(transactionsRepositorySpy).toHaveBeenCalledWith(mockedTransaction);
 
     expect(assetsRepositorySpy).toHaveBeenCalledWith({
-      ...createMockedAsset(),
+      ...createMockedUserAsset(),
       quantity: expectedQuantity,
     });
 

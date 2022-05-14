@@ -1,14 +1,14 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
-import { AssetsRepository } from '@application/providers/repositories/assets.repository';
+import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
 import { TransactionsRepository } from '@application/providers/repositories/transactions.repository';
-import { UpdateAssetPayload } from '@domain/entities/asset';
+import { UpdateUserAssetPayload } from '@domain/entities/user-asset';
 import {
   CreateTransactionPayload,
   Transaction,
 } from '@domain/entities/transaction';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { UseCase } from '@domain/interfaces/use-case';
-import { AddAssetInterface } from '../assets/add-asset';
+import { AddUserAssetInterface } from '../usersAssets/add-user-asset';
 
 export type AddTransactionInterface = UseCase<
   [CreateTransactionPayload],
@@ -18,8 +18,8 @@ export type AddTransactionInterface = UseCase<
 export class AddTransaction implements AddTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
-    private assetsRepository: AssetsRepository,
-    private addAsset: AddAssetInterface,
+    private usersAssetsRepository: UsersAssetsRepository,
+    private addAsset: AddUserAssetInterface,
   ) {}
 
   async execute(payload: CreateTransactionPayload): Promise<TransactionDTO> {
@@ -37,12 +37,12 @@ export class AddTransaction implements AddTransactionInterface {
 
     const transaction = Transaction.create(id, payload);
 
-    const asset = await this.assetsRepository.findBySymbol({
+    const userAsset = await this.usersAssetsRepository.findBySymbol({
       symbol: payload.symbol,
       userId: payload.userId,
     });
 
-    if (!asset) {
+    if (!userAsset) {
       if (payload.type === 'sale') {
         throw new InvalidParamException(
           'Can´t register a sale transaction because you don´t have any asset.',
@@ -62,29 +62,29 @@ export class AddTransaction implements AddTransactionInterface {
       return TransactionDTO.fromDomain(transaction);
     }
 
-    let updateAssetPayload: UpdateAssetPayload;
+    let updateAssetPayload: UpdateUserAssetPayload;
 
     if (payload.type === 'sale') {
-      if (payload.quantity > asset.quantity) {
+      if (payload.quantity > userAsset.quantity) {
         throw new InvalidParamException(
           `Sold assets quantity is greater than current assets quantity.`,
         );
       }
 
       updateAssetPayload = {
-        quantity: asset.quantity - payload.quantity,
+        quantity: userAsset.quantity - payload.quantity,
       };
     } else {
       updateAssetPayload = {
-        quantity: asset.quantity + payload.quantity,
+        quantity: userAsset.quantity + payload.quantity,
       };
     }
 
     await this.transactionsRepository.add(transaction);
 
-    asset.update(updateAssetPayload);
+    userAsset.update(updateAssetPayload);
 
-    await this.assetsRepository.update(asset);
+    await this.usersAssetsRepository.update(userAsset);
 
     return TransactionDTO.fromDomain(transaction);
   }

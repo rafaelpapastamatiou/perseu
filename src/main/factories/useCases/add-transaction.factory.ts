@@ -1,12 +1,16 @@
 import { AddTransaction } from '@application/useCases/transactions/add-transaction';
-import { MongoAssetsRepository } from '@infra/database/mongodb/repositories/mongo-assets.repository';
+import { MongoUsersAssetsRepository } from '@infra/database/mongodb/repositories/mongo-users-assets.repository';
 import { MongoTransactionsRepository } from '@infra/database/mongodb/repositories/mongo-transactions.repository';
-import { makeAddAsset } from './add-asset.factory';
+import { makeAddUserAsset } from './add-asset.factory';
 
 export function makeAddTransaction(): AddTransaction {
   const transactionsRepository = new MongoTransactionsRepository();
-  const assetsRepository = new MongoAssetsRepository();
-  const addAsset = makeAddAsset();
+  const usersAssetsRepository = new MongoUsersAssetsRepository();
+  const addUserAsset = makeAddUserAsset();
 
-  return new AddTransaction(transactionsRepository, assetsRepository, addAsset);
+  return new AddTransaction(
+    transactionsRepository,
+    usersAssetsRepository,
+    addUserAsset,
+  );
 }

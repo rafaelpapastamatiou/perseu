@@ -1,10 +1,10 @@
 import { UpdateTransaction } from '@application/useCases/transactions/update-transaction';
-import { MongoAssetsRepository } from '@infra/database/mongodb/repositories/mongo-assets.repository';
+import { MongoUsersAssetsRepository } from '@infra/database/mongodb/repositories/mongo-users-assets.repository';
 import { MongoTransactionsRepository } from '@infra/database/mongodb/repositories/mongo-transactions.repository';
 
 export function makeUpdateTransaction(): UpdateTransaction {
   const transactionsRepository = new MongoTransactionsRepository();
-  const assetsRepository = new MongoAssetsRepository();
+  const usersAssetsRepository = new MongoUsersAssetsRepository();
 
-  return new UpdateTransaction(transactionsRepository, assetsRepository);
+  return new UpdateTransaction(transactionsRepository, usersAssetsRepository);
 }
