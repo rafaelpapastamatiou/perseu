@@ -33,14 +33,14 @@ export class RabbitMQ implements Broker {
     });
 
     return this.channel.consume(queue, async (msg) => {
-      const msgJson = JSON.parse(msg.content.toString());
+      const msgJson = JSON.parse(msg.content.toString()) as QueueMessage;
 
       if (!msgJson || !msgJson.type) {
         console.log('Message rejected: invalid format.');
         this.channel.reject(msg);
       }
 
-      return callback(msgJson as QueueMessage, async (err) => {
+      return callback(msgJson, async (err) => {
         if (err) {
           console.log('Error processing message: ', err);
           this.channel.nack(msg, false, false);
@@ -49,7 +49,7 @@ export class RabbitMQ implements Broker {
         }
 
         this.channel.ack(msg);
-        console.log('Message acked');
+        console.log('Message acked: ', msgJson.type);
       });
     });
   }
