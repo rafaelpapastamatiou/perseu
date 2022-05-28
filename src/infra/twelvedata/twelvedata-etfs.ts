@@ -24,7 +24,7 @@ export class TwelvedataEtfs implements Etfs {
   async find(): Promise<FetchEtfResult[]> {
     const {
       data: { data: etfs },
-    } = await this.client.get<TwelvedataEtfsResponse>('etfs');
+    } = await this.client.get<TwelvedataEtfsResponse>('etf');
 
     return etfs;
   }
