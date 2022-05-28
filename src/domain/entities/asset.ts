@@ -11,7 +11,7 @@ export type CreateAssetPayload = {
 };
 
 export enum AssetTypes {
-  STOCK = 'STOCK',
+  Stock = 'Stock',
   REIT = 'REIT',
   ETF = 'ETF',
 }

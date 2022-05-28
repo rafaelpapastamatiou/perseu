@@ -89,5 +89,5 @@ const isReitRegex = /reit/i;
 function getStockType(type: string): AssetTypes {
   if (type.match(isReitRegex)) return AssetTypes.REIT;
 
-  return AssetTypes.STOCK;
+  return AssetTypes.Stock;
 }
