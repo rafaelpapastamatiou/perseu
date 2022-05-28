@@ -23,7 +23,7 @@ export type UpdateTransactionInterface = UseCase<
 export class UpdateTransaction implements UpdateTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
-    private assetsRepository: UsersAssetsRepository,
+    private userAssetsRepository: UsersAssetsRepository,
   ) {}
 
   async execute(
@@ -42,7 +42,7 @@ export class UpdateTransaction implements UpdateTransactionInterface {
 
     if (!transaction) throw new NotFoundException('Transaction not found.');
 
-    const userAsset = await this.assetsRepository.findBySymbol({
+    const userAsset = await this.userAssetsRepository.findBySymbol({
       userId,
       symbol: transaction.symbol,
     });
