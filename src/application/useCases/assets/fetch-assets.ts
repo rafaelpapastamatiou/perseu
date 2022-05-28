@@ -4,11 +4,11 @@ import { Stocks } from '@application/providers/stocks';
 import { Asset, AssetTypes } from '@domain/entities/asset';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export type FetchStocksInterface = UseCase<[], void>;
+export type FetchAssetsInterface = UseCase<[], void>;
 
 const isStockRegex = /stock/i;
 
-export class FetchStocks implements FetchStocksInterface {
+export class FetchAssets implements FetchAssetsInterface {
   constructor(
     private assetsRepository: AssetsRepository,
     private stocksProvider: Stocks,
