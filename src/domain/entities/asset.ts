@@ -1,7 +1,7 @@
 import { Entity } from './entity';
 
 export type CreateAssetPayload = {
-  name: string;
+  name?: string;
   symbol: string;
   currency: string;
   exchange: string;
