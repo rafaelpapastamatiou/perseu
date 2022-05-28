@@ -12,4 +12,8 @@ export const UserAssetSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
 });
 
-export const UserAssetModel = mongoose.model('UserAsset', UserAssetSchema);
+export const UserAssetModel = mongoose.model(
+  'UserAsset',
+  UserAssetSchema,
+  'userAssets',
+);

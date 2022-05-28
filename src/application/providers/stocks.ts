@@ -17,6 +17,7 @@ export type StockResult = {
 };
 
 export type FetchStockResult = {
+  name: string;
   symbol: string;
   currency: string;
   exchange: string;
