@@ -6,7 +6,7 @@ import { UseCase } from '@domain/interfaces/use-case';
 
 export type FetchAssetsInterface = UseCase<[], void>;
 
-const isStockRegex = /stock/i;
+const acceptedStocksRegex = /(stock, reit)/i;
 
 export class FetchAssets implements FetchAssetsInterface {
   constructor(
@@ -24,7 +24,7 @@ export class FetchAssets implements FetchAssetsInterface {
 
     let [stocksArray] = results;
     stocksArray = stocksArray.filter((stockData) =>
-      stockData.type.match(isStockRegex),
+      stockData.type.match(acceptedStocksRegex),
     );
 
     const [, etfsArray] = results;
@@ -53,7 +53,7 @@ export class FetchAssets implements FetchAssetsInterface {
 
       const stock = Asset.create(id, {
         ...stockData,
-        type: AssetTypes.STOCK,
+        type: getStockType(stockData.type),
         micCode: stockData.mic_code,
       });
 
@@ -82,4 +82,12 @@ export class FetchAssets implements FetchAssetsInterface {
 
     await this.assetsRepository.import(assets);
   }
+}
+
+const isReitRegex = /reit/i;
+
+function getStockType(type: string): AssetTypes {
+  if (type.match(isReitRegex)) return AssetTypes.REIT;
+
+  return AssetTypes.STOCK;
 }
