@@ -3,28 +3,28 @@ import { Model, Types } from 'mongoose';
 import { MongoHelper } from '../mongo-helper';
 import { Cache } from '@application/providers/cache';
 import {
-  FindStockBySymbol,
-  StocksRepository,
-} from '@application/providers/repositories/stocks.repository';
-import { StockDocument, StockModel } from '../schemas/stock.schema';
-import { Stock } from '@domain/entities/stock';
+  FindAssetBySymbol,
+  AssetsRepository,
+} from '@application/providers/repositories/assets.repository';
+import { AssetDocument, AssetModel } from '../schemas/asset.schema';
+import { Asset } from '@domain/entities/asset';
 
-export class MongoStocksRepository implements StocksRepository {
-  stockModel: Model<StockDocument> = StockModel;
+export class MongoAssetsRepository implements AssetsRepository {
+  assetModel: Model<AssetDocument> = AssetModel;
 
   constructor(private cache: Cache) {}
 
-  async find(): Promise<Stock[]> {
-    const cacheKey = 'stocks';
+  async find(): Promise<Asset[]> {
+    const cacheKey = 'assets';
 
-    const cachedStocks = await this.cache.get<Stock[]>(cacheKey);
+    const cachedAssets = await this.cache.get<Asset[]>(cacheKey);
 
-    if (cachedStocks && cachedStocks.length > 0) return cachedStocks;
+    if (cachedAssets && cachedAssets.length > 0) return cachedAssets;
 
-    const stocks = await this.stockModel.find().sort({ name: 1 });
+    const assets = await this.assetModel.find().sort({ name: 1 });
 
-    const mappedStocks = stocks.map((stock) =>
-      MongoHelper.mapToClass<Stock>(stock, Stock.prototype),
+    const mappedStocks = assets.map((asset) =>
+      MongoHelper.mapToClass<Asset>(asset, Asset.prototype),
     );
 
     await this.cache.set(cacheKey, mappedStocks);
@@ -35,25 +35,25 @@ export class MongoStocksRepository implements StocksRepository {
   async findBySymbol({
     symbol,
     exchange,
-  }: FindStockBySymbol): Promise<Stock | undefined> {
-    const stock = await this.stockModel.findOne({
+  }: FindAssetBySymbol): Promise<Asset | undefined> {
+    const stock = await this.assetModel.findOne({
       symbol,
       exchange,
     });
 
     if (!stock) return undefined;
 
-    return MongoHelper.mapToClass<Stock>(stock, Stock.prototype);
+    return MongoHelper.mapToClass<Asset>(stock, Asset.prototype);
   }
 
-  async import(stocks: Stock[]): Promise<void> {
-    await this.stockModel.deleteMany();
+  async import(stocks: Asset[]): Promise<void> {
+    await this.assetModel.deleteMany();
 
     const stocksModels = stocks.map((stock) =>
-      MongoHelper.mapToDocument<StockDocument>(stock),
+      MongoHelper.mapToDocument<AssetDocument>(stock),
     );
 
-    await this.stockModel.bulkWrite(
+    await this.assetModel.bulkWrite(
       stocksModels.map((document) => ({
         insertOne: {
           document,
