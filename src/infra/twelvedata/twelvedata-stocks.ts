@@ -1,7 +1,6 @@
 import {
   FetchStockResult,
   FindStockParams,
-  StockResult,
   Stocks,
 } from '@application/providers/stocks';
 import { TwelvedataStockNotFoundException } from './exceptions/twelvedata-stock-not-found.exception';
@@ -21,10 +20,6 @@ type TwelvedataStockData = TwelvedataStockInfoData & {
   country: string;
 };
 
-type TwelvedataStockInfoResponse = {
-  data: TwelvedataStockInfoData[];
-};
-
 type TwelvedataStockPriceResponse = {
   price: number;
 };
@@ -37,47 +32,6 @@ export class TwelvedataStocks implements Stocks {
   private client = twelveDataClient;
 
   constructor(private cache: Cache) {}
-
-  async findBySymbol({
-    symbol,
-    exchange,
-  }: FindStockParams): Promise<StockResult> {
-    try {
-      const cacheKey = `${symbol}-${exchange}`;
-
-      const cachedStock = await this.cache.get<StockResult>(cacheKey);
-
-      if (cachedStock) return cachedStock;
-
-      const {
-        data: { data: stocks },
-      } = await this.client.get<TwelvedataStockInfoResponse>('stocks', {
-        params: {
-          symbol,
-          exchange,
-        },
-      });
-
-      if (!stocks || stocks.length === 0) {
-        throw new TwelvedataStockNotFoundException(symbol);
-      }
-
-      const stockData = stocks[0];
-
-      const stock = {
-        exchange: stockData.exchange,
-        symbol,
-        name: stockData.name,
-        currency: stockData.currency,
-      };
-
-      await this.cache.set(cacheKey, stock);
-
-      return stock;
-    } catch (err) {
-      handleTwelvedataProviderError(symbol, err);
-    }
-  }
 
   async findPriceBySymbol({
     symbol,
