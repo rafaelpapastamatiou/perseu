@@ -22,6 +22,7 @@ export class StocksStub implements Stocks {
   async find(): Promise<FetchStockResult[]> {
     return [
       {
+        name: 'fake name',
         symbol: 'fake-symbol',
         exchange: 'fake-exchange',
         currency: 'USD',
