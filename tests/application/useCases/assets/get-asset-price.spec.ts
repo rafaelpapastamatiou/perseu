@@ -1,17 +1,17 @@
 import {
-  GetStockPrice,
-  GetStockPriceParams,
-} from '@application/useCases/stocks/get-stock-price';
+  GetAssetPrice,
+  GetAssetPriceParams,
+} from '@application/useCases/assets/get-asset-price';
 import { StocksStub } from '@tests/infra/mocks/providers/stocks.stub';
 
 const makeSut = () => {
   const stocksStub = new StocksStub();
-  const sut = new GetStockPrice(stocksStub);
+  const sut = new GetAssetPrice(stocksStub);
 
   return { sut, stocksStub };
 };
 
-describe('GetStockPrice', () => {
+describe('GetAssetPrice', () => {
   it('should throws if stocks.findPriceBySymbol throws', async () => {
     const { sut, stocksStub } = makeSut();
 
@@ -34,7 +34,7 @@ describe('GetStockPrice', () => {
 
     const stockSpy = jest.spyOn(stocksStub, 'findPriceBySymbol');
 
-    const payload: GetStockPriceParams = {
+    const payload: GetAssetPriceParams = {
       symbol: 'FAKE',
       exchange: 'fake-exchange',
     };

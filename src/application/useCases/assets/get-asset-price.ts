@@ -1,17 +1,17 @@
 import { Stocks } from '@application/providers/stocks';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export type GetStockPriceParams = {
+export type GetAssetPriceParams = {
   symbol: string;
   exchange: string;
 };
 
-export type GetStockPriceInterface = UseCase<[GetStockPriceParams], number>;
+export type GetAssetPriceInterface = UseCase<[GetAssetPriceParams], number>;
 
-export class GetStockPrice implements GetStockPriceInterface {
+export class GetAssetPrice implements GetAssetPriceInterface {
   constructor(private stocksProvider: Stocks) {}
 
-  async execute({ symbol, exchange }: GetStockPriceParams): Promise<number> {
+  async execute({ symbol, exchange }: GetAssetPriceParams): Promise<number> {
     const price = await this.stocksProvider.findPriceBySymbol({
       symbol,
       exchange,

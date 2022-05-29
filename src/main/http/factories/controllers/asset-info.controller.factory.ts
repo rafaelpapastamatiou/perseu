@@ -1,9 +1,9 @@
-import { makeGetStockInfo } from '@main/factories/useCases/get-stock-info.factory';
+import { makeGetAssetInfo } from '@main/factories/useCases/assets/get-asset-info.factory';
 import { StockInfoController } from '@presentation/http/controllers/stock-info.controller';
 import { Controller } from '@presentation/http/protocols/controller';
 
 export function makeStockInfoController(): Controller {
-  const getStockInfo = makeGetStockInfo();
+  const GetAssetInfo = makeGetAssetInfo();
 
-  return new StockInfoController(getStockInfo);
+  return new StockInfoController(GetAssetInfo);
 }

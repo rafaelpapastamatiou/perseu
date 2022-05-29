@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
 import { adaptExpressRoute } from '@main/http/adapters/express-route.adapter';
-import { makeStockPriceController } from '../factories/controllers/stock-price.controller.factory';
+import { makeAssetPriceController } from '../factories/controllers/asset-price.controller.factory';
 import { adaptExpressMiddleware } from '../adapters/express-middleware.adapter';
 import { StockPriceRequestDTO } from '@presentation/http/dtos/stock-price.dto';
 import { ValidationMiddleware } from '@presentation/http/middlewares/validation.middleware';
 import { StockInfoRequestDTO } from '@presentation/http/dtos/stock-info.dto';
-import { makeStockInfoController } from '../factories/controllers/stock-info.controller.factory';
+import { makeStockInfoController } from '../factories/controllers/asset-info.controller.factory';
 
 const stockRoutes = Router();
 
@@ -23,7 +23,7 @@ const stockRoutes = Router();
 stockRoutes.get(
   '/price',
   adaptExpressMiddleware(new ValidationMiddleware(StockPriceRequestDTO)),
-  adaptExpressRoute(makeStockPriceController()),
+  adaptExpressRoute(makeAssetPriceController()),
 );
 
 /**

@@ -115,7 +115,7 @@ export class UpdateTransaction implements UpdateTransactionInterface {
     if (updateUserAssetPayload) {
       userAsset.update(updateUserAssetPayload);
 
-      await this.assetsRepository.update(userAsset);
+      await this.userAssetsRepository.update(userAsset);
     }
 
     transaction.update(payload);

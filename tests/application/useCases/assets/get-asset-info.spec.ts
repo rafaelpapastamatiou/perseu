@@ -1,28 +1,30 @@
 import {
-  GetStockInfo,
-  GetStockInfoParams,
-} from '@application/useCases/stocks/get-stock-info';
-import { StocksStub } from '@tests/infra/mocks/providers/stocks.stub';
+  GetAssetInfo,
+  GetAssetInfoParams,
+} from '@application/useCases/assets/get-asset-info';
+import { AssetsRepositoryStub } from '@tests/infra/mocks/repositories/assets.repository.stub';
 
 const makeSut = () => {
-  const stocksStub = new StocksStub();
-  const sut = new GetStockInfo(stocksStub);
+  const assetsRepositoryStub = new AssetsRepositoryStub();
+  const sut = new GetAssetInfo(assetsRepositoryStub);
 
   return {
     sut,
-    stocksStub,
+    assetsRepositoryStub,
   };
 };
 
-describe('GetStockInfo', () => {
+describe('GetAssetInfo', () => {
   it('should throw if stocks.findBySymbol throws', async () => {
-    const { sut, stocksStub } = makeSut();
+    const { sut, assetsRepositoryStub } = makeSut();
 
     const err = new Error('Fake stocks.findBySymbol error');
 
-    jest.spyOn(stocksStub, 'findBySymbol').mockImplementationOnce(() => {
-      throw err;
-    });
+    jest
+      .spyOn(assetsRepositoryStub, 'findBySymbol')
+      .mockImplementationOnce(() => {
+        throw err;
+      });
 
     expect(
       sut.execute({
@@ -33,11 +35,11 @@ describe('GetStockInfo', () => {
   });
 
   it('should be able to get stock info', async () => {
-    const { sut, stocksStub } = makeSut();
+    const { sut, assetsRepositoryStub } = makeSut();
 
-    const stocksSpy = jest.spyOn(stocksStub, 'findBySymbol');
+    const stocksSpy = jest.spyOn(assetsRepositoryStub, 'findBySymbol');
 
-    const payload: GetStockInfoParams = {
+    const payload: GetAssetInfoParams = {
       symbol: 'FAKE',
       exchange: 'fake-exchange',
     };

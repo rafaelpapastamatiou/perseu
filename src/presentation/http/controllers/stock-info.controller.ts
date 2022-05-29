@@ -1,4 +1,4 @@
-import { GetStockInfoInterface } from '@application/useCases/stocks/get-stock-info';
+import { GetAssetInfoInterface } from '@application/useCases/assets/get-asset-info';
 import {
   StockInfoRequestDTO,
   StockInfoResponseDTO,
@@ -8,14 +8,14 @@ import { Controller } from '../protocols/controller';
 import { HttpRequest, HttpResponse } from '../protocols/http';
 
 export class StockInfoController implements Controller {
-  constructor(private getStockInfo: GetStockInfoInterface) {}
+  constructor(private GetAssetInfo: GetAssetInfoInterface) {}
 
   async handle({
     query,
   }: HttpRequest<any, any, StockInfoRequestDTO>): Promise<
     HttpResponse<StockInfoResponseDTO>
   > {
-    const stockInfo = await this.getStockInfo.execute({
+    const stockInfo = await this.GetAssetInfo.execute({
       symbol: query.symbol,
       exchange: query.exchange,
     });
