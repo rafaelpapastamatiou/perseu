@@ -7,7 +7,7 @@ import { UseCase } from '@domain/interfaces/use-case';
 
 export type FetchAssetsInterface = UseCase<[], void>;
 
-const acceptedStocksRegex = /(stock, reit)/i;
+const acceptedStocksRegex = /(stock|reit)/i;
 
 export class FetchAssets implements FetchAssetsInterface {
   constructor(
