@@ -14,6 +14,8 @@ export enum AssetTypes {
   Stock = 'Stock',
   REIT = 'REIT',
   ETF = 'ETF',
+  Crypto = 'Crypto',
+  Index = 'Index',
 }
 
 export class Asset extends Entity {
