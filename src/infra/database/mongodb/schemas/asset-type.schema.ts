@@ -8,4 +8,8 @@ export const AssetTypeSchema = new mongoose.Schema({
   name: String,
 });
 
-export const AssetTypeModel = mongoose.model('AssetType', AssetTypeSchema);
+export const AssetTypeModel = mongoose.model(
+  'AssetType',
+  AssetTypeSchema,
+  'assetTypes',
+);
