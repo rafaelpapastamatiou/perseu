@@ -1,29 +1,29 @@
 import schedule from 'node-schedule';
 
-import { makePublishRequest } from '@main/factories/useCases/publish-request.factory';
+import { makePublishMessage } from '@main/factories/useCases/publish-message.factory';
 import { twelvedataQueue } from '../queues/tweveldata.queue';
 import {
   twelvedataSyncAssets,
   twelvedataSyncExchanges,
 } from '../messageTypes/twelvedata.types';
 
-const publishRequest = makePublishRequest(twelvedataQueue);
+const publishMessage = makePublishMessage(twelvedataQueue);
 
 const rule = new schedule.RecurrenceRule();
 
-rule.hour = 0;
-//rule.minute = new schedule.Range(0, 59, 1);
+//rule.hour = 0;
+rule.minute = new schedule.Range(0, 59, 1);
 
 schedule.scheduleJob(rule, async () => {
-  console.log('Sending message');
+  console.log('Sending message: ', twelvedataSyncExchanges);
 
-  await publishRequest.execute({ type: twelvedataSyncExchanges });
+  await publishMessage.execute({ type: twelvedataSyncExchanges });
 });
 
 schedule.scheduleJob(rule, async () => {
-  console.log('Sending message');
+  console.log('Sending message: ', twelvedataSyncAssets);
 
-  await publishRequest.execute({ type: twelvedataSyncAssets });
+  await publishMessage.execute({ type: twelvedataSyncAssets });
 });
 
 console.log('TwelveData schedules registered.');

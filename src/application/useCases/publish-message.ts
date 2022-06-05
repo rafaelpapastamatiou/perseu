@@ -2,12 +2,12 @@ import { Broker } from '@application/providers/broker/broker';
 import { QueueMessage } from '@application/providers/broker/consume-from-queue';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export type PublishRequestInterface = UseCase<[any], PublishRequestResult>;
+export type PublishMessageInterface = UseCase<[any], PublishMessageResult>;
 
-export class PublishRequest implements PublishRequestInterface {
+export class PublishMessage implements PublishMessageInterface {
   constructor(private broker: Broker, private queue: string) {}
 
-  async execute(message: QueueMessage): Promise<PublishRequestResult> {
+  async execute(message: QueueMessage): Promise<PublishMessageResult> {
     await this.broker.connect();
 
     const isPublished = await this.broker.publish({
@@ -21,6 +21,6 @@ export class PublishRequest implements PublishRequestInterface {
   }
 }
 
-export type PublishRequestResult = {
+export type PublishMessageResult = {
   success: boolean;
 };
