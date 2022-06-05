@@ -1,6 +1,6 @@
 import { makeRabbitMQ } from '@main/factories/providers/rabbitmq.factory';
 import { makeFetchExchanges } from '@main/factories/useCases/exchanges/fetch-exchanges.factory';
-import { makeeFetchAssets } from '@main/factories/useCases/assets/fetch-assets.factory';
+import { makeFetchAssets } from '@main/factories/useCases/assets/fetch-assets.factory';
 import {
   twelvedataSyncAssets,
   twelvedataSyncExchanges,
@@ -22,7 +22,7 @@ async function setup() {
           break;
 
         case twelvedataSyncAssets:
-          const fetchAssets = makeeFetchAssets();
+          const fetchAssets = makeFetchAssets();
 
           await fetchAssets.execute();
           break;

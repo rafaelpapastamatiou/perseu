@@ -4,7 +4,7 @@ import { Redis } from '@infra/redis';
 import { TwelvedataEtfs } from '@infra/twelvedata/twelvedata-etfs';
 import { TwelvedataStocks } from '@infra/twelvedata/twelvedata-stocks';
 
-export function makeeFetchAssets() {
+export function makeFetchAssets() {
   const cache = new Redis();
   const stocksProvider = new TwelvedataStocks(cache);
   const etfsProvider = new TwelvedataEtfs();
