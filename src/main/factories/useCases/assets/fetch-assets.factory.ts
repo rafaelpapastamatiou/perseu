@@ -1,4 +1,5 @@
 import { FetchAssets } from '@application/useCases/assets/fetch-assets';
+import { MongoAssetTypesRepository } from '@infra/database/mongodb/repositories/mongo-asset-types.repository';
 import { MongoAssetsRepository } from '@infra/database/mongodb/repositories/mongo-assets.repository';
 import { Redis } from '@infra/redis';
 import { TwelvedataEtfs } from '@infra/twelvedata/twelvedata-etfs';
@@ -9,6 +10,12 @@ export function makeFetchAssets() {
   const stocksProvider = new TwelvedataStocks(cache);
   const etfsProvider = new TwelvedataEtfs();
   const assetsRepository = new MongoAssetsRepository(cache);
+  const assetTypesRepository = new MongoAssetTypesRepository();
 
-  return new FetchAssets(assetsRepository, stocksProvider, etfsProvider);
+  return new FetchAssets(
+    assetsRepository,
+    assetTypesRepository,
+    stocksProvider,
+    etfsProvider,
+  );
 }
