@@ -10,10 +10,23 @@ import {
   UserAssetModel,
 } from '../schemas/user-asset.schema';
 import { MongoHelper } from '../mongo-helper';
-import { FindByIdWithAuth } from '@application/providers/repositories/repository.protocols';
+import {
+  FindByIdWithAuth,
+  FindWithAuth,
+} from '@application/providers/repositories/repository.protocols';
 
 export class MongoUsersAssetsRepository implements UsersAssetsRepository {
   userAssetModel: Model<UserAssetDocument> = UserAssetModel;
+
+  async find({ userId }: FindWithAuth): Promise<UserAsset[]> {
+    const userAssets = await this.userAssetModel.find({
+      userId,
+    });
+
+    return userAssets.map((userAsset) =>
+      MongoHelper.mapToClass<UserAsset>(userAsset, UserAsset.prototype),
+    );
+  }
 
   async findById({
     id,
