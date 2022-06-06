@@ -7,6 +7,7 @@ import { makeAuthMiddleware } from './factories/middlewares/auth.middleware.fact
 import { transactionsRoutes } from './routes/transactions.routes';
 import { exchangesRoutes } from './routes/exchanges.routes';
 import { assetTypesRoutes } from './routes/asset-types.routes';
+import { walletRoutes } from './routes/wallet.routes';
 
 const router = Router();
 
@@ -21,5 +22,7 @@ router.use('/transactions', transactionsRoutes);
 router.use('/exchanges', exchangesRoutes);
 
 router.use('/assetTypes', assetTypesRoutes);
+
+router.use('/wallet', walletRoutes);
 
 export { router };
