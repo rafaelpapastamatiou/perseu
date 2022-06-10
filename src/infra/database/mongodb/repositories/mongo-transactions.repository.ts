@@ -1,7 +1,7 @@
 import {
   FindByIdWithAuth,
   FindWithAuth,
-} from '@application/providers/repositories/repository.protocols';
+} from '@application/protocols/repository.protocols';
 import { TransactionsRepository } from '@application/providers/repositories/transactions.repository';
 import { Transaction } from '@domain/entities/transaction';
 import { Model, Types } from 'mongoose';

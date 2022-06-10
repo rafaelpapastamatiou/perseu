@@ -13,19 +13,45 @@ import { MongoHelper } from '../mongo-helper';
 import {
   FindByIdWithAuth,
   FindWithAuth,
-} from '@application/providers/repositories/repository.protocols';
+} from '@application/protocols/repository.protocols';
+import {
+  PaginationConfig,
+  PaginationResult,
+} from '@application/protocols/pagination.protocols';
 
 export class MongoUserAssetsRepository implements UserAssetsRepository {
   userAssetModel: Model<UserAssetDocument> = UserAssetModel;
 
-  async find({ userId }: FindWithAuth): Promise<UserAsset[]> {
-    const userAssets = await this.userAssetModel.find({
-      userId,
-    });
+  async find(
+    { userId }: FindWithAuth,
+    { page, limit }: PaginationConfig,
+  ): Promise<PaginationResult<UserAsset>> {
+    const offset = page * limit;
 
-    return userAssets.map((userAsset) =>
-      MongoHelper.mapToClass<UserAsset>(userAsset, UserAsset.prototype),
-    );
+    const [{ data = [], count = [] }] = await this.userAssetModel.aggregate([
+      {
+        $match: {
+          userId: MongoHelper.objectId(userId),
+        },
+      },
+      {
+        $facet: {
+          data: [{ $skip: offset }, { $limit: limit }],
+          count: [{ $count: 'total' }],
+        },
+      },
+    ]);
+
+    const [{ total }] = count.length > 0 ? count : [{ total: 0 }];
+
+    return {
+      data: data.map((userAsset: UserAssetDocument) =>
+        MongoHelper.mapToClass<UserAsset>(userAsset, UserAsset.prototype),
+      ),
+      total,
+      page,
+      limit,
+    };
   }
 
   async findById({

@@ -9,7 +9,7 @@ export const MongoHelper = {
   ): T => {
     if (!doc) return undefined;
 
-    const { _id, ...rest } = doc.toObject();
+    const { _id, ...rest } = doc.toObject ? doc.toObject() : doc;
 
     delete rest.__v;
 

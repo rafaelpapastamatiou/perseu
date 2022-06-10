@@ -1,4 +1,4 @@
-import { FindWithAuth } from './repository.protocols';
+import { FindWithAuth } from '../../protocols/repository.protocols';
 
 export interface UserWalletRepository {
   getComposition(

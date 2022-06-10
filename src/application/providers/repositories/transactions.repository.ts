@@ -1,5 +1,8 @@
 import { Transaction } from '@domain/entities/transaction';
-import { FindByIdWithAuth, FindWithAuth } from './repository.protocols';
+import {
+  FindByIdWithAuth,
+  FindWithAuth,
+} from '../../protocols/repository.protocols';
 
 export interface TransactionsRepository {
   find(params: FindWithAuth): Promise<Transaction[]>;

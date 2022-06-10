@@ -1,8 +1,18 @@
+import {
+  PaginationConfig,
+  PaginationResult,
+} from '@application/protocols/pagination.protocols';
 import { UserAsset } from '@domain/entities/user-asset';
-import { FindByIdWithAuth, FindWithAuth } from './repository.protocols';
+import {
+  FindByIdWithAuth,
+  FindWithAuth,
+} from '../../protocols/repository.protocols';
 
 export interface UserAssetsRepository {
-  find(identifier: FindWithAuth): Promise<UserAsset[]>;
+  find(
+    identifier: FindWithAuth,
+    paginationConfig: PaginationConfig,
+  ): Promise<PaginationResult<UserAsset>>;
 
   findById(params: FindByIdWithAuth): Promise<UserAsset | undefined>;
 

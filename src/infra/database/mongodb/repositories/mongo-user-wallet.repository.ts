@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { FindWithAuth } from '@application/providers/repositories/repository.protocols';
+import { FindWithAuth } from '@application/protocols/repository.protocols';
 import {
   GetUserWalletCompositionResult,
   UserWalletRepository,
