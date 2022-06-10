@@ -1,4 +1,4 @@
-import { CreateAssetPayload, Asset, AssetTypes } from '@domain/entities/asset';
+import { CreateAssetPayload, Asset } from '@domain/entities/asset';
 
 export const mockedAssetData: CreateAssetPayload = {
   country: 'USA',
@@ -6,7 +6,7 @@ export const mockedAssetData: CreateAssetPayload = {
   exchange: 'fake-exchange',
   micCode: '001',
   symbol: 'FAKE',
-  type: AssetTypes.Stock,
+  typeId: 'fake-type-id',
   name: 'fake-name',
 };
 

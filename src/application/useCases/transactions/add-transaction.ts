@@ -9,6 +9,8 @@ import {
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { UseCase } from '@domain/interfaces/use-case';
 import { AddUserAssetInterface } from '../usersAssets/add-user-asset';
+import { AssetsRepository } from '@application/providers/repositories/assets.repository';
+import { NotFoundException } from '@domain/exceptions/not-found.exception';
 
 export type AddTransactionInterface = UseCase<
   [CreateTransactionPayload],
@@ -19,6 +21,7 @@ export class AddTransaction implements AddTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
     private usersAssetsRepository: UserAssetsRepository,
+    private assetsRepository: AssetsRepository,
     private addAsset: AddUserAssetInterface,
   ) {}
 
@@ -49,6 +52,15 @@ export class AddTransaction implements AddTransactionInterface {
         );
       }
 
+      const asset = await this.assetsRepository.findBySymbol({
+        symbol: payload.symbol,
+        exchange: payload.exchange,
+      });
+
+      if (!asset) {
+        throw new NotFoundException('Asset not found on our database.');
+      }
+
       await this.transactionsRepository.add(transaction);
 
       await this.addAsset.execute({
@@ -56,7 +68,7 @@ export class AddTransaction implements AddTransactionInterface {
         symbol: payload.symbol,
         quantity: payload.quantity,
         userId: payload.userId,
-        type: '',
+        type: asset.type?.name,
       });
 
       return TransactionDTO.fromDomain(transaction);

@@ -62,7 +62,7 @@ export class FetchAssets implements FetchAssetsInterface {
 
       const stock = Asset.create(id, {
         ...stockData,
-        type: assetTypesIds[assetType],
+        typeId: assetTypesIds[assetType],
         micCode: stockData.mic_code,
       });
 
@@ -77,7 +77,7 @@ export class FetchAssets implements FetchAssetsInterface {
 
       const etf = Asset.create(id, {
         ...etfData,
-        type: assetTypesIds.ETF,
+        typeId: assetTypesIds.ETF,
         micCode: etfData.mic_code,
       });
 
@@ -85,9 +85,7 @@ export class FetchAssets implements FetchAssetsInterface {
     }
 
     // IMPORT ASSETS DATA
-    const assets = [...stocks, ...etfs].sort((a, b) =>
-      a.name.localeCompare(b.name),
-    );
+    const assets = [...stocks, ...etfs];
 
     await this.assetsRepository.import(assets);
   }

@@ -36,10 +36,22 @@ export class MongoAssetsRepository implements AssetsRepository {
     symbol,
     exchange,
   }: FindAssetBySymbol): Promise<Asset | undefined> {
-    const stock = await this.assetModel.findOne({
-      symbol,
-      exchange,
-    });
+    const [stock] = await this.assetModel.aggregate([
+      { $match: { symbol, exchange } },
+      {
+        $lookup: {
+          from: 'assetTypes',
+          as: 'type',
+          foreignField: '_id',
+          localField: 'typeId',
+        },
+      },
+      {
+        $unwind: '$type',
+      },
+    ]);
+
+    console.log(stock);
 
     if (!stock) return undefined;
 

@@ -13,14 +13,17 @@ import {
 } from '@tests/domain/mocks/transaction.mock';
 import { UserAssetsRepositoryStub } from '@tests/infra/mocks/repositories/user-assets.repository.stub';
 import { TransactionsRepositoryStub } from '@tests/infra/mocks/repositories/transactions.repository.stub';
+import { AssetsRepositoryStub } from '@tests/infra/mocks/repositories/assets.repository.stub';
 
 const makeSut = () => {
   const transactionsRepositoryStub = new TransactionsRepositoryStub();
-  const assetsRepositoryStub = new UserAssetsRepositoryStub();
+  const userAssetsRepositoryStub = new UserAssetsRepositoryStub();
+  const assetsRepositoryStub = new AssetsRepositoryStub();
   const addAssetStub = new AddUserAssetStub();
 
   const sut = new AddTransaction(
     transactionsRepositoryStub,
+    userAssetsRepositoryStub,
     assetsRepositoryStub,
     addAssetStub,
   );
@@ -29,6 +32,7 @@ const makeSut = () => {
     sut,
     transactionsRepositoryStub,
     assetsRepositoryStub,
+    userAssetsRepositoryStub,
     addAssetStub,
   };
 };
@@ -81,13 +85,13 @@ describe('AddTransaction', () => {
   it('should be able to add a purchase transaction with a new asset', async () => {
     const {
       sut,
-      assetsRepositoryStub,
+      userAssetsRepositoryStub,
       transactionsRepositoryStub,
       addAssetStub,
     } = makeSut();
 
     jest
-      .spyOn(assetsRepositoryStub, 'findBySymbol')
+      .spyOn(userAssetsRepositoryStub, 'findBySymbol')
       .mockResolvedValueOnce(undefined);
 
     const transactionsRepositorySpy = jest.spyOn(
@@ -110,14 +114,14 @@ describe('AddTransaction', () => {
       symbol: mockedTransactionData.symbol,
       quantity: mockedTransactionData.quantity,
       userId: mockedTransactionData.userId,
-      type: '',
+      type: 'fake-type',
     });
   });
 
   it('should be able to add a purchase transaction and update a existing asset', async () => {
     const {
       sut,
-      assetsRepositoryStub,
+      userAssetsRepositoryStub,
       transactionsRepositoryStub,
       addAssetStub,
     } = makeSut();
@@ -127,7 +131,7 @@ describe('AddTransaction', () => {
       'add',
     );
 
-    const assetsRepositorySpy = jest.spyOn(assetsRepositoryStub, 'update');
+    const assetsRepositorySpy = jest.spyOn(userAssetsRepositoryStub, 'update');
 
     const addAssetSpy = jest.spyOn(addAssetStub, 'execute');
 
@@ -148,10 +152,10 @@ describe('AddTransaction', () => {
   });
 
   it('should throw when adding a sale transaction for a new asset', async () => {
-    const { sut, assetsRepositoryStub } = makeSut();
+    const { sut, userAssetsRepositoryStub } = makeSut();
 
     jest
-      .spyOn(assetsRepositoryStub, 'findBySymbol')
+      .spyOn(userAssetsRepositoryStub, 'findBySymbol')
       .mockResolvedValueOnce(undefined);
 
     await expect(
@@ -165,7 +169,7 @@ describe('AddTransaction', () => {
   it('should be able to add a sale transaction and update a existing asset', async () => {
     const {
       sut,
-      assetsRepositoryStub,
+      userAssetsRepositoryStub,
       transactionsRepositoryStub,
       addAssetStub,
     } = makeSut();
@@ -175,7 +179,7 @@ describe('AddTransaction', () => {
       'add',
     );
 
-    const assetsRepositorySpy = jest.spyOn(assetsRepositoryStub, 'update');
+    const assetsRepositorySpy = jest.spyOn(userAssetsRepositoryStub, 'update');
 
     const addAssetSpy = jest.spyOn(addAssetStub, 'execute');
 

@@ -1,4 +1,3 @@
-import { TransactionDTO } from '@application/dtos/transaction.dto';
 import {
   CreateTransactionPayload,
   Transaction,

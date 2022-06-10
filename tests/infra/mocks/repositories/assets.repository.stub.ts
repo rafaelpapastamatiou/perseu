@@ -11,7 +11,13 @@ export class AssetsRepositoryStub implements AssetsRepository {
   }
 
   async findBySymbol(): Promise<Asset> {
-    return createMockedAsset();
+    return {
+      ...createMockedAsset(),
+      type: {
+        id: 'fake-type-id',
+        name: 'fake-type',
+      },
+    };
   }
 
   async import(exchanges: Asset[]): Promise<void> {

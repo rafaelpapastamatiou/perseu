@@ -1,3 +1,4 @@
+import { AssetType } from './asset-type';
 import { Entity } from './entity';
 
 export type CreateAssetPayload = {
@@ -7,7 +8,7 @@ export type CreateAssetPayload = {
   exchange: string;
   micCode: string;
   country: string;
-  type: string;
+  typeId: string;
 };
 
 export enum AssetTypes {
@@ -25,7 +26,8 @@ export class Asset extends Entity {
   exchange: string;
   micCode: string;
   country: string;
-  type: AssetTypes;
+  typeId: string;
+  type?: AssetType;
 
   private constructor(id: string, payload: CreateAssetPayload) {
     super(id);

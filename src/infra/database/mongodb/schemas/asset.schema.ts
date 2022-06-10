@@ -11,7 +11,7 @@ export const AssetSchema = new mongoose.Schema({
   exchange: String,
   micCode: String,
   country: String,
-  type: mongoose.Types.ObjectId,
+  typeId: mongoose.Types.ObjectId,
 });
 
 export const AssetModel = mongoose.model('Asset', AssetSchema);
