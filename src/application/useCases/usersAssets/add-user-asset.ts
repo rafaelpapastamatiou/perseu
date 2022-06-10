@@ -1,4 +1,4 @@
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { CreateUserAssetPayload, UserAsset } from '@domain/entities/user-asset';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { UseCase } from '@domain/interfaces/use-case';
@@ -9,7 +9,7 @@ export type AddUserAssetInterface = UseCase<
 >;
 
 export class AddUserAsset implements AddUserAssetInterface {
-  constructor(private assetsRepository: UsersAssetsRepository) {}
+  constructor(private assetsRepository: UserAssetsRepository) {}
 
   async execute(payload: CreateUserAssetPayload): Promise<UserAsset> {
     if (payload.quantity <= 0) {

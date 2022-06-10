@@ -1,4 +1,4 @@
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { UpdateUserAssetPayload, UserAsset } from '@domain/entities/user-asset';
 import { InvalidParamException } from '@domain/exceptions/invalid-param.exception';
 import { NotFoundException } from '@domain/exceptions/not-found.exception';
@@ -15,7 +15,7 @@ export type UpdateUserAssetInterface = UseCase<
 >;
 
 export class UpdateUserAsset implements UpdateUserAssetInterface {
-  constructor(private usersAssetsRepository: UsersAssetsRepository) {}
+  constructor(private usersAssetsRepository: UserAssetsRepository) {}
 
   async execute(
     { id, userId }: UpdateUserAssetIdentifier,

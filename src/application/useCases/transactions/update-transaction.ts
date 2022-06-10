@@ -1,5 +1,5 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { TransactionsRepository } from '@application/providers/repositories/transactions.repository';
 import { UpdateUserAssetPayload } from '@domain/entities/user-asset';
 import {
@@ -23,7 +23,7 @@ export type UpdateTransactionInterface = UseCase<
 export class UpdateTransaction implements UpdateTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
-    private userAssetsRepository: UsersAssetsRepository,
+    private userAssetsRepository: UserAssetsRepository,
   ) {}
 
   async execute(

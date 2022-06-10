@@ -1,5 +1,5 @@
 import { UserAssetDTO } from '@application/dtos/user-asset.dto';
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { NotFoundException } from '@domain/exceptions/not-found.exception';
 import { UseCase } from '@domain/interfaces/use-case';
 
@@ -9,7 +9,7 @@ export type FindAssetInterface = UseCase<
 >;
 
 export class FindAssetById implements FindAssetInterface {
-  constructor(private assetsRepository: UsersAssetsRepository) {}
+  constructor(private assetsRepository: UserAssetsRepository) {}
 
   async execute({
     id,

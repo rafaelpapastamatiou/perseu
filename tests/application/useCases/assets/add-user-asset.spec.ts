@@ -4,10 +4,10 @@ import {
   createMockedUserAsset,
   mockedUserAssetData,
 } from '@tests/domain/mocks/user-asset.mock';
-import { UsersAssetsRepositoryStub } from '@tests/infra/mocks/repositories/users-assets.repository.stub';
+import { UserAssetsRepositoryStub } from '@tests/infra/mocks/repositories/user-assets.repository.stub';
 
 const makeSut = () => {
-  const usersAssetsRepositoryStub = new UsersAssetsRepositoryStub();
+  const usersAssetsRepositoryStub = new UserAssetsRepositoryStub();
 
   const sut = new AddUserAsset(usersAssetsRepositoryStub);
 

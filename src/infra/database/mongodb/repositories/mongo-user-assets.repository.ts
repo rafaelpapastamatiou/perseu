@@ -1,9 +1,9 @@
 import { Model, Types } from 'mongoose';
 
 import {
-  UsersAssetsRepository,
+  UserAssetsRepository,
   FindUserAssetBySymbol,
-} from '@application/providers/repositories/users-assets.repository';
+} from '@application/providers/repositories/user-assets.repository';
 import { UserAsset } from '@domain/entities/user-asset';
 import {
   UserAssetDocument,
@@ -15,7 +15,7 @@ import {
   FindWithAuth,
 } from '@application/providers/repositories/repository.protocols';
 
-export class MongoUsersAssetsRepository implements UsersAssetsRepository {
+export class MongoUserAssetsRepository implements UserAssetsRepository {
   userAssetModel: Model<UserAssetDocument> = UserAssetModel;
 
   async find({ userId }: FindWithAuth): Promise<UserAsset[]> {

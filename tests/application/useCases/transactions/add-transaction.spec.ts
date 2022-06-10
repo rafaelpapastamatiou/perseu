@@ -11,12 +11,12 @@ import {
   createMockedTransaction,
   mockedTransactionData,
 } from '@tests/domain/mocks/transaction.mock';
-import { UsersAssetsRepositoryStub } from '@tests/infra/mocks/repositories/users-assets.repository.stub';
+import { UserAssetsRepositoryStub } from '@tests/infra/mocks/repositories/user-assets.repository.stub';
 import { TransactionsRepositoryStub } from '@tests/infra/mocks/repositories/transactions.repository.stub';
 
 const makeSut = () => {
   const transactionsRepositoryStub = new TransactionsRepositoryStub();
-  const assetsRepositoryStub = new UsersAssetsRepositoryStub();
+  const assetsRepositoryStub = new UserAssetsRepositoryStub();
   const addAssetStub = new AddUserAssetStub();
 
   const sut = new AddTransaction(

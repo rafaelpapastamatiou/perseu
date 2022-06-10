@@ -1,11 +1,11 @@
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { UserAsset } from '@domain/entities/user-asset';
 import {
   createMockedUserAsset,
   mockedUserAssetId,
 } from '@tests/domain/mocks/user-asset.mock';
 
-export class UsersAssetsRepositoryStub implements UsersAssetsRepository {
+export class UserAssetsRepositoryStub implements UserAssetsRepository {
   async find(): Promise<UserAsset[]> {
     return [createMockedUserAsset()];
   }

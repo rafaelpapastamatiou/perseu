@@ -1,7 +1,7 @@
 import { UserAsset } from '@domain/entities/user-asset';
 import { FindByIdWithAuth, FindWithAuth } from './repository.protocols';
 
-export interface UsersAssetsRepository {
+export interface UserAssetsRepository {
   find(identifier: FindWithAuth): Promise<UserAsset[]>;
 
   findById(params: FindByIdWithAuth): Promise<UserAsset | undefined>;

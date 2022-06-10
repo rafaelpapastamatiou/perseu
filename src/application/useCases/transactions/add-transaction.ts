@@ -1,5 +1,5 @@
 import { TransactionDTO } from '@application/dtos/transaction.dto';
-import { UsersAssetsRepository } from '@application/providers/repositories/users-assets.repository';
+import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { TransactionsRepository } from '@application/providers/repositories/transactions.repository';
 import { UpdateUserAssetPayload } from '@domain/entities/user-asset';
 import {
@@ -18,7 +18,7 @@ export type AddTransactionInterface = UseCase<
 export class AddTransaction implements AddTransactionInterface {
   constructor(
     private transactionsRepository: TransactionsRepository,
-    private usersAssetsRepository: UsersAssetsRepository,
+    private usersAssetsRepository: UserAssetsRepository,
     private addAsset: AddUserAssetInterface,
   ) {}
 

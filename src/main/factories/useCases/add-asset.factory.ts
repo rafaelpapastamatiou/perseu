@@ -1,8 +1,8 @@
 import { AddUserAsset } from '@application/useCases/usersAssets/add-user-asset';
-import { MongoUsersAssetsRepository } from '@infra/database/mongodb/repositories/mongo-users-assets.repository';
+import { MongoUserAssetsRepository } from '@infra/database/mongodb/repositories/mongo-user-assets.repository';
 
 export function makeAddUserAsset(): AddUserAsset {
-  const usersAssetsRepository = new MongoUsersAssetsRepository();
+  const usersAssetsRepository = new MongoUserAssetsRepository();
 
   return new AddUserAsset(usersAssetsRepository);
 }
