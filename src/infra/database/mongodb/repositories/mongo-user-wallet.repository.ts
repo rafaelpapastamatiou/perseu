@@ -51,7 +51,11 @@ export class MongoUserWalletRepository implements UserWalletRepository {
 
     const composition = userAssetsWithPrice.map((userAsset) => ({
       symbol: userAsset.symbol,
-      percentage: ((userAsset.price * userAsset.quantity) / totalValue) * 100,
+      percentage: Number(
+        (((userAsset.price * userAsset.quantity) / totalValue) * 100).toFixed(
+          1,
+        ),
+      ),
     }));
 
     return composition;
