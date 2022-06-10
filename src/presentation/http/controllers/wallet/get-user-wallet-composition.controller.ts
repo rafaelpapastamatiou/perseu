@@ -1,4 +1,4 @@
-import { GetUserWalletCompositionResult } from '@application/providers/repositories/user-wallet.repository';
+import { GetUserWalletCompositionItem } from '@application/providers/repositories/user-wallet.repository';
 import { GetUserWalletCompositionInterface } from '@application/useCases/wallet/get-user-wallet-composition';
 import { ok } from '@presentation/http/helpers/http-helpers';
 import { Controller } from '@presentation/http/protocols/controller';
@@ -11,7 +11,7 @@ export class GetUserWalletCompositionController implements Controller {
 
   async handle({
     userId,
-  }: HttpRequest): Promise<HttpResponse<GetUserWalletCompositionResult>> {
+  }: HttpRequest): Promise<HttpResponse<GetUserWalletCompositionItem[]>> {
     const composition = await this.getUserWalletComposition.execute({ userId });
 
     return ok({

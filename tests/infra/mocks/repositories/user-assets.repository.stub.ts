@@ -1,3 +1,4 @@
+import { PaginationResult } from '@application/protocols/pagination.protocols';
 import { UserAssetsRepository } from '@application/providers/repositories/user-assets.repository';
 import { UserAsset } from '@domain/entities/user-asset';
 import {
@@ -6,8 +7,13 @@ import {
 } from '@tests/domain/mocks/user-asset.mock';
 
 export class UserAssetsRepositoryStub implements UserAssetsRepository {
-  async find(): Promise<UserAsset[]> {
-    return [createMockedUserAsset()];
+  async find(): Promise<PaginationResult<UserAsset>> {
+    return {
+      data: [createMockedUserAsset()],
+      total: 1,
+      page: 0,
+      limit: 100,
+    };
   }
 
   async findById(): Promise<UserAsset | undefined> {

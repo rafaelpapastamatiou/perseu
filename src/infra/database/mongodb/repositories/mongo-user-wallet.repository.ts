@@ -2,7 +2,8 @@ import { Model } from 'mongoose';
 
 import { FindWithAuth } from '@application/protocols/repository.protocols';
 import {
-  GetUserWalletCompositionResult,
+  GetUserWalletCompositionByAssetTypeItem,
+  GetUserWalletCompositionItem,
   UserWalletRepository,
 } from '@application/providers/repositories/user-wallet.repository';
 import {
@@ -20,10 +21,11 @@ export class MongoUserWalletRepository implements UserWalletRepository {
 
   async getComposition({
     userId,
-  }: FindWithAuth): Promise<GetUserWalletCompositionResult> {
-    const userAssets = (await this.userAssetModel.find({ userId })).map(
-      (userAsset) =>
-        MongoHelper.mapToClass<UserAsset>(userAsset, UserAsset.prototype),
+  }: FindWithAuth): Promise<GetUserWalletCompositionItem[]> {
+    const userAssets = (
+      await this.userAssetModel.find({ userId: MongoHelper.objectId(userId) })
+    ).map((userAsset) =>
+      MongoHelper.mapToClass<UserAsset>(userAsset, UserAsset.prototype),
     );
 
     const getAssetPricePromises = [];
@@ -51,6 +53,7 @@ export class MongoUserWalletRepository implements UserWalletRepository {
 
     const composition = userAssetsWithPrice.map((userAsset) => ({
       symbol: userAsset.symbol,
+      type: userAsset.type,
       percentage: Number(
         (((userAsset.price * userAsset.quantity) / totalValue) * 100).toFixed(
           1,
@@ -58,6 +61,33 @@ export class MongoUserWalletRepository implements UserWalletRepository {
       ),
     }));
 
-    return composition;
+    return composition as GetUserWalletCompositionItem[];
+  }
+
+  async getCompositionByAssetType({
+    userId,
+  }: FindWithAuth): Promise<GetUserWalletCompositionByAssetTypeItem[]> {
+    const composition = await this.getComposition({ userId });
+
+    const compositionByAssetType = composition.reduce((acc, next) => {
+      const index = acc.findIndex(({ type }) => type === next.type);
+
+      if (index < 0) {
+        const obj = {
+          type: next.type,
+          percentage: next.percentage,
+        };
+
+        acc.push(obj);
+
+        return acc;
+      }
+
+      acc[index].percentage += next.percentage;
+
+      return acc;
+    }, []);
+
+    return compositionByAssetType;
   }
 }

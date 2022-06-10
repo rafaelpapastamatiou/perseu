@@ -1,13 +1,13 @@
 import { FindWithAuth } from '@application/protocols/repository.protocols';
 import {
-  GetUserWalletCompositionResult,
+  GetUserWalletCompositionItem,
   UserWalletRepository,
 } from '@application/providers/repositories/user-wallet.repository';
 import { UseCase } from '@domain/interfaces/use-case';
 
 export type GetUserWalletCompositionInterface = UseCase<
   [FindWithAuth],
-  GetUserWalletCompositionResult
+  GetUserWalletCompositionItem[]
 >;
 
 export class GetUserWalletComposition
@@ -16,7 +16,7 @@ export class GetUserWalletComposition
 
   async execute({
     userId,
-  }: FindWithAuth): Promise<GetUserWalletCompositionResult> {
+  }: FindWithAuth): Promise<GetUserWalletCompositionItem[]> {
     const userWalletComposition =
       await this.userWalletRepository.getComposition({
         userId,
