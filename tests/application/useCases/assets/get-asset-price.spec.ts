@@ -2,22 +2,22 @@ import {
   GetAssetPrice,
   GetAssetPriceParams,
 } from '@application/useCases/assets/get-asset-price';
-import { StocksStub } from '@tests/infra/mocks/providers/stocks.stub';
+import { AssetsStub } from '@tests/infra/mocks/providers/assets.stub';
 
 const makeSut = () => {
-  const stocksStub = new StocksStub();
-  const sut = new GetAssetPrice(stocksStub);
+  const assetsStub = new AssetsStub();
+  const sut = new GetAssetPrice(assetsStub);
 
-  return { sut, stocksStub };
+  return { sut, assetsStub };
 };
 
 describe('GetAssetPrice', () => {
   it('should throws if stocks.findPriceBySymbol throws', async () => {
-    const { sut, stocksStub } = makeSut();
+    const { sut, assetsStub } = makeSut();
 
     const err = new Error('Fake stocks.findPriceBySymbol error');
 
-    jest.spyOn(stocksStub, 'findPriceBySymbol').mockImplementationOnce(() => {
+    jest.spyOn(assetsStub, 'getPriceBySymbol').mockImplementationOnce(() => {
       throw err;
     });
 
@@ -30,9 +30,9 @@ describe('GetAssetPrice', () => {
   });
 
   it('should be able to retrieve stock price', async () => {
-    const { sut, stocksStub } = makeSut();
+    const { sut, assetsStub } = makeSut();
 
-    const stockSpy = jest.spyOn(stocksStub, 'findPriceBySymbol');
+    const stockSpy = jest.spyOn(assetsStub, 'getPriceBySymbol');
 
     const payload: GetAssetPriceParams = {
       symbol: 'FAKE',

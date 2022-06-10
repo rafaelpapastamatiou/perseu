@@ -11,12 +11,12 @@ import {
 } from '../schemas/user-asset.schema';
 import { MongoHelper } from '../mongo-helper';
 import { UserAsset } from '@domain/entities/user-asset';
-import { Stocks } from '@application/providers/stocks';
+import { AssetsProvider } from '@application/providers/assets';
 
 export class MongoUserWalletRepository implements UserWalletRepository {
   userAssetModel: Model<UserAssetDocument> = UserAssetModel;
 
-  constructor(private stocksProvider: Stocks) {}
+  constructor(private assetsProvider: AssetsProvider) {}
 
   async getComposition({
     userId,
@@ -30,7 +30,7 @@ export class MongoUserWalletRepository implements UserWalletRepository {
 
     for (const userAsset of userAssets) {
       getAssetPricePromises.push(
-        this.stocksProvider.findPriceBySymbol({
+        this.assetsProvider.getPriceBySymbol({
           symbol: userAsset.symbol,
           exchange: userAsset.exchange,
         }),

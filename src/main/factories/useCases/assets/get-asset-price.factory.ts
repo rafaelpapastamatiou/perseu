@@ -1,8 +1,8 @@
 import { GetAssetPrice } from '@application/useCases/assets/get-asset-price';
-import { makeTwelvedataStocks } from '@main/factories/providers/twelvedata-stocks.factory';
+import { makeTwelvedataAssets } from '@main/factories/providers/twelvedata-assets.factory';
 
 export function makeGetAssetPrice(): GetAssetPrice {
-  const twelvedataStocks = makeTwelvedataStocks();
+  const assetsProvider = makeTwelvedataAssets();
 
-  return new GetAssetPrice(twelvedataStocks);
+  return new GetAssetPrice(assetsProvider);
 }

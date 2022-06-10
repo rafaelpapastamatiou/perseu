@@ -7,7 +7,7 @@ import { TwelvedataStocks } from '@infra/twelvedata/twelvedata-stocks';
 
 export function makeFetchAssets() {
   const cache = new Redis();
-  const stocksProvider = new TwelvedataStocks(cache);
+  const stocksProvider = new TwelvedataStocks();
   const etfsProvider = new TwelvedataEtfs();
   const assetsRepository = new MongoAssetsRepository(cache);
   const assetTypesRepository = new MongoAssetTypesRepository();
