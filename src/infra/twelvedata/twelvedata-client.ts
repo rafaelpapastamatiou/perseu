@@ -31,6 +31,18 @@ function createTwelveDataClient() {
 
   client.interceptors.response.use(
     function (response) {
+      const { code, status, message } = response.data;
+
+      if (code && !code.toString().match(/ˆ\2.*/)) {
+        const error = {
+          response: {
+            data: { code, status, message },
+          },
+        };
+
+        return Promise.reject(error);
+      }
+
       return response;
     },
     function (err) {

@@ -9,13 +9,13 @@ export class GetAssetProfileController implements Controller {
   constructor(private getAssetProfile: GetAssetProfileInterface) {}
 
   async handle({
-    body,
-  }: HttpRequest<GetAssetProfileRequestDTO>): Promise<
+    query,
+  }: HttpRequest<any, any, GetAssetProfileRequestDTO>): Promise<
     HttpResponse<GetAssetProfileResult>
   > {
     const profile = await this.getAssetProfile.execute({
-      symbol: body.symbol,
-      exchange: body.exchange,
+      symbol: query.symbol,
+      exchange: query.exchange,
     });
 
     return ok({ body: profile });

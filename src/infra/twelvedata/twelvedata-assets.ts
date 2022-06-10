@@ -24,34 +24,34 @@ export class TwelvedataAssets implements AssetsProvider {
       if (cachedProfile)
         return JSON.parse(cachedProfile) as GetAssetProfileResult;
 
-      const promises = [
-        this.client.get('profile', {
-          params: {
-            symbol,
-            exchange,
-          },
-        }),
-        this.client.get('logo', {
-          params: {
-            symbol,
-            exchange,
-          },
-        }),
-      ];
-
-      const [
-        { data },
-        {
-          data: { url },
+      const { data: profileData } = await this.client.get('profile', {
+        params: {
+          symbol,
+          exchange,
         },
-      ] = await Promise.all(promises);
+      });
+
+      let logo: string | undefined;
+
+      try {
+        const { data: logoData } = await this.client.get('logo', {
+          params: {
+            symbol,
+            exchange,
+          },
+        });
+
+        logo = logoData.url;
+      } catch {
+        logo = undefined;
+      }
 
       const profile: GetAssetProfileResult = {
-        ...data,
-        logo: url,
+        ...profileData,
+        logo,
       };
 
-      await this.cache.set(cacheKey, profile);
+      await this.cache.set(cacheKey, JSON.stringify(profile));
 
       return profile;
     } catch (err) {
