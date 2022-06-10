@@ -6,6 +6,10 @@ import {
 } from '@tests/domain/mocks/user-asset.mock';
 
 export class UsersAssetsRepositoryStub implements UsersAssetsRepository {
+  async find(): Promise<UserAsset[]> {
+    return [createMockedUserAsset()];
+  }
+
   async findById(): Promise<UserAsset | undefined> {
     const userAsset = createMockedUserAsset();
 
