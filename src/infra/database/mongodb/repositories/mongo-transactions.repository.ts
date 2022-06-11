@@ -1,4 +1,8 @@
 import {
+  PaginationConfig,
+  PaginationResult,
+} from '@application/protocols/pagination.protocols';
+import {
   FindByIdWithAuth,
   FindWithAuth,
 } from '@application/protocols/repository.protocols';
@@ -14,14 +18,32 @@ import {
 export class MongoTransactionsRepository implements TransactionsRepository {
   transactionModel: Model<TransactionDocument> = TransactionModel;
 
-  async find({ userId }: FindWithAuth): Promise<Transaction[]> {
-    const transactions = await this.transactionModel.find({
-      userId: MongoHelper.objectId(userId),
-    });
+  async find(
+    { userId }: FindWithAuth,
+    { limit, page = 0 }: PaginationConfig,
+  ): Promise<PaginationResult<Transaction>> {
+    const offset = page * limit;
 
-    return transactions.map((transaction) =>
-      MongoHelper.mapToClass<Transaction>(transaction, Transaction.prototype),
-    );
+    const [{ data = [], count = [] }] = await this.transactionModel.aggregate([
+      { $match: { userId: MongoHelper.objectId(userId) } },
+      {
+        $facet: {
+          data: [{ $skip: offset }, { $limit: limit }, { $sort: { date: -1 } }],
+          count: [{ $count: 'total' }],
+        },
+      },
+    ]);
+
+    const { total } = count.length > 0 ? count : [{ total: 0 }];
+
+    return {
+      data: data.map((transaction: TransactionDocument) =>
+        MongoHelper.mapToClass<Transaction>(transaction, Transaction.prototype),
+      ),
+      total,
+      page,
+      limit,
+    };
   }
 
   async findById({

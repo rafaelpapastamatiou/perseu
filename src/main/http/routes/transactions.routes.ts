@@ -8,6 +8,7 @@ import { makeCreateTransactionController } from '../factories/controllers/transa
 import { makeListTransactionsController } from '../factories/controllers/transactions/list-transactions.controller.factory';
 import { makeUpdateTransactionController } from '../factories/controllers/transactions/update-transaction.controller.factory';
 import { UpdateTransactionRequestDTO } from '@presentation/http/dtos/update-transaction.dto';
+import { PaginationRequestParamsDTO } from '@presentation/http/dtos/pagination.dto';
 
 const transactionsRoutes = Router();
 
@@ -80,6 +81,7 @@ transactionsRoutes.put(
  */
 transactionsRoutes.get(
   '/',
+  adaptExpressMiddleware(new ValidationMiddleware(PaginationRequestParamsDTO)),
   adaptExpressRoute(makeListTransactionsController()),
 );
 

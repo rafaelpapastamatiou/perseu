@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNumber, Max } from 'class-validator';
 
-export class ListUserAssetsRequestDTO {
+export class PaginationRequestParamsDTO {
   @Type(() => Number)
   @IsNumber()
   page: number;

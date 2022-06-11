@@ -1,4 +1,4 @@
-import { ListUserAssetsRequestDTO } from '@presentation/http/dtos/list-user-assets.dto';
+import { PaginationRequestParamsDTO } from '@presentation/http/dtos/pagination.dto';
 import { ValidationMiddleware } from '@presentation/http/middlewares/validation.middleware';
 import { Router } from 'express';
 import { adaptExpressMiddleware } from '../adapters/express-middleware.adapter';
@@ -9,7 +9,7 @@ const userAssetsRoutes = Router();
 
 userAssetsRoutes.get(
   '/',
-  adaptExpressMiddleware(new ValidationMiddleware(ListUserAssetsRequestDTO)),
+  adaptExpressMiddleware(new ValidationMiddleware(PaginationRequestParamsDTO)),
   adaptExpressRoute(makeListUserAssetsController()),
 );
 
