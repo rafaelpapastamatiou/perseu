@@ -8,6 +8,13 @@ import { MongoHelper } from '../mongo-helper';
 export class MongoUsersRepository implements UsersRepository {
   userModel: Model<UserDocument> = UserModel;
 
+  async find(): Promise<User[]> {
+    const users = await this.userModel.find();
+
+    return users.map((user) =>
+      MongoHelper.mapToClass<User>(user, User.prototype),
+    );
+  }
   async findById(id: string): Promise<User | undefined> {
     const user = await this.userModel.findOne(MongoHelper.objectId(id));
 

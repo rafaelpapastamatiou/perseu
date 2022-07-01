@@ -22,7 +22,17 @@ import {
 export class MongoUserAssetsRepository implements UserAssetsRepository {
   userAssetModel: Model<UserAssetDocument> = UserAssetModel;
 
-  async find(
+  async find({ userId }: FindWithAuth): Promise<UserAsset[]> {
+    const userAssets = await this.userAssetModel.find({
+      userId: MongoHelper.objectId(userId),
+    });
+
+    return userAssets.map((asset) =>
+      MongoHelper.mapToClass<UserAsset>(asset, UserAsset.prototype),
+    );
+  }
+
+  async findPaginated(
     { userId }: FindWithAuth,
     { page, limit }: PaginationConfig,
   ): Promise<PaginationResult<UserAsset>> {

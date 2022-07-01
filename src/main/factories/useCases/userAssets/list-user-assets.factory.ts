@@ -1,8 +1,8 @@
 import { ListUserAssets } from '@application/useCases/usersAssets/list-user-assets';
-import { makeListUserAssetsRepository } from '@main/factories/providers/repositories/user-assets.repository.factory';
+import { makeUserAssetsRepository } from '@main/factories/providers/repositories/user-assets.repository.factory';
 
 export function makeListUserAssets() {
-  const userAssetsRepository = makeListUserAssetsRepository();
+  const userAssetsRepository = makeUserAssetsRepository();
 
   return new ListUserAssets(userAssetsRepository);
 }

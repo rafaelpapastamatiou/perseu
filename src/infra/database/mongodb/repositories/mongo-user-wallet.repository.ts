@@ -69,24 +69,29 @@ export class MongoUserWalletRepository implements UserWalletRepository {
   }: FindWithAuth): Promise<GetUserWalletCompositionByAssetTypeItem[]> {
     const composition = await this.getComposition({ userId });
 
-    const compositionByAssetType = composition.reduce((acc, next) => {
-      const index = acc.findIndex(({ type }) => type === next.type);
+    const compositionByAssetType = composition
+      .reduce((acc, next) => {
+        const index = acc.findIndex(({ type }) => type === next.type);
 
-      if (index < 0) {
-        const obj = {
-          type: next.type,
-          percentage: next.percentage,
-        };
+        if (index < 0) {
+          const obj = {
+            type: next.type,
+            percentage: next.percentage,
+          };
 
-        acc.push(obj);
+          acc.push(obj);
+
+          return acc;
+        }
+
+        acc[index].percentage += next.percentage;
 
         return acc;
-      }
-
-      acc[index].percentage += next.percentage;
-
-      return acc;
-    }, []);
+      }, [])
+      .map((assetTypeComposition) => ({
+        ...assetTypeComposition,
+        percentage: Number(assetTypeComposition.percentage.toFixed(1)),
+      }));
 
     return compositionByAssetType;
   }
