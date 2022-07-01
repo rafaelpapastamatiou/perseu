@@ -14,4 +14,6 @@ export const AssetSchema = new mongoose.Schema({
   typeId: mongoose.Types.ObjectId,
 });
 
+AssetSchema.index({ symbol: 'text', exchange: 'text', name: 'text' });
+
 export const AssetModel = mongoose.model('Asset', AssetSchema);

@@ -9,6 +9,8 @@ import { StockInfoRequestDTO } from '@presentation/http/dtos/stock-info.dto';
 import { makeStockInfoController } from '../factories/controllers/asset-info.controller.factory';
 import { GetAssetProfileRequestDTO } from '@presentation/http/dtos/get-asset-profile.dto';
 import { makeGetAssetProfileController } from '../factories/controllers/assets/get-asset-profile.controller.factory';
+import { SearchAssetDTO } from '@presentation/http/dtos/search-asset.dto';
+import { makeSearchAssetController } from '../factories/controllers/assets/search-asset.controller.factory';
 
 const assetsRoutes = Router();
 
@@ -57,6 +59,12 @@ assetsRoutes.get(
   '/profile',
   adaptExpressMiddleware(new ValidationMiddleware(GetAssetProfileRequestDTO)),
   adaptExpressRoute(makeGetAssetProfileController()),
+);
+
+assetsRoutes.get(
+  '/search',
+  adaptExpressMiddleware(new ValidationMiddleware(SearchAssetDTO)),
+  adaptExpressRoute(makeSearchAssetController()),
 );
 
 export { assetsRoutes };

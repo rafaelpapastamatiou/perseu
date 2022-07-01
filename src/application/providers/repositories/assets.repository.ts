@@ -5,9 +5,14 @@ export interface AssetsRepository {
   findBySymbol(params: FindAssetBySymbol): Promise<Asset | undefined>;
   import(exchanges: Asset[]): Promise<void>;
   generateId(): Promise<string>;
+  search(params: SearchAssetParams): Promise<Asset[]>;
 }
 
 export type FindAssetBySymbol = {
   exchange: string;
   symbol: string;
+};
+
+export type SearchAssetParams = {
+  search: string;
 };

@@ -1,10 +1,8 @@
 import { GetAssetInfo } from '@application/useCases/assets/get-asset-info';
-import { MongoAssetsRepository } from '@infra/database/mongodb/repositories/mongo-assets.repository';
-import { Redis } from '@infra/redis';
+import { makeAssetsRepository } from '@main/factories/providers/repositories/assets.repository.factory';
 
 export function makeGetAssetInfo(): GetAssetInfo {
-  const cache = new Redis();
-  const assetsRepository = new MongoAssetsRepository(cache);
+  const assetsRepository = makeAssetsRepository();
 
   return new GetAssetInfo(assetsRepository);
 }
