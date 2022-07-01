@@ -22,11 +22,6 @@ export class AuthMiddleware implements Middleware {
   }: HttpRequest): Promise<
     HttpResponse<AuthResult | HttpExceptionResponseBody>
   > {
-    // mocked authorization
-    return ok({
-      userId: '62210ecbff25530ac06eb3c5',
-    });
-
     const token = headers['authorization'] || headers['Authorization'];
 
     if (!token) {
