@@ -9,7 +9,9 @@ import {
 } from '../../protocols/repository.protocols';
 
 export interface UserAssetsRepository {
-  find(
+  find(identifier: FindWithAuth): Promise<UserAsset[]>;
+
+  findPaginated(
     identifier: FindWithAuth,
     paginationConfig: PaginationConfig,
   ): Promise<PaginationResult<UserAsset>>;
