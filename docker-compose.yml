@@ -25,5 +25,7 @@ services:
     working_dir: /usr/src/app
     depends_on:
       - rabbitmq
-    command: >
-      ./wait-for-it.sh perseu-rabbitmq:5672 -- yarn dev:docker
+    environment:
+      WAIT_HOSTS: perseu-redis:6379, perseu-rabbitmq:5672
+    command: sh -c "/wait && yarn dev:docker"
+      
