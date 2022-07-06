@@ -1,7 +1,11 @@
 import { Model, Types } from 'mongoose';
+import { startOfDay, endOfDay } from 'date-fns';
 
 import { FindWithAuth } from '@application/protocols/repository.protocols';
-import { UserAssetsLogsRepository } from '@application/providers/repositories/user-assets-logs.repository';
+import {
+  FindUserAssetsLogByDate,
+  UserAssetsLogsRepository,
+} from '@application/providers/repositories/user-assets-logs.repository';
 import { UserAssetsLog } from '@domain/entities/user-assets-log';
 import {
   UserAssetsLogDocument,
@@ -19,6 +23,26 @@ export class MongoUserAssetsLogsRepository implements UserAssetsLogsRepository {
 
     return userAssetsLogs.map((log) =>
       MongoHelper.mapToClass<UserAssetsLog>(log, UserAssetsLog.prototype),
+    );
+  }
+
+  async findByDate({
+    userId,
+    date,
+  }: FindUserAssetsLogByDate): Promise<UserAssetsLog | undefined> {
+    const userAssetsLog = await this.userAssetsLogModel.findOne({
+      userId: MongoHelper.objectId(userId),
+      date: {
+        $gte: startOfDay(date),
+        $lte: endOfDay(date),
+      },
+    });
+
+    if (!userAssetsLog) return undefined;
+
+    return MongoHelper.mapToClass<UserAssetsLog>(
+      userAssetsLog,
+      UserAssetsLog.prototype,
     );
   }
 
@@ -42,9 +66,18 @@ export class MongoUserAssetsLogsRepository implements UserAssetsLogsRepository {
     return id.toString();
   }
 
-  async add(userAssetsLog: UserAssetsLog): Promise<void> {
+  async save({ id, ...data }: UserAssetsLog): Promise<void> {
+    await this.userAssetsLogModel.findOneAndUpdate(
+      {
+        _id: MongoHelper.objectId(id),
+      },
+      data,
+    );
+  }
+
+  async create(payload: UserAssetsLog): Promise<void> {
     await this.userAssetsLogModel.create(
-      MongoHelper.mapToDocument<UserAssetsLogDocument>(userAssetsLog),
+      MongoHelper.mapToDocument<UserAssetsLogDocument>(payload),
     );
   }
 }

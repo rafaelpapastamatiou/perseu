@@ -14,8 +14,17 @@ export class RabbitMQ implements Broker {
   private connection = rabbitMqConnection;
   private channel = rabbitMqChannel;
 
+  constructor() {
+    this.testConnection();
+  }
+
   async connect(): Promise<boolean> {
     return true;
+  }
+
+  testConnection() {
+    if (!this.connection || !this.channel)
+      throw new Error('RabbitMQ connection failed.');
   }
 
   async publish({ queue, message }: PublishInQueueParams): Promise<boolean> {

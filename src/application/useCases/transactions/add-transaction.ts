@@ -11,6 +11,8 @@ import { UseCase } from '@domain/interfaces/use-case';
 import { AddUserAssetInterface } from '../usersAssets/add-user-asset';
 import { AssetsRepository } from '@application/providers/repositories/assets.repository';
 import { NotFoundException } from '@domain/exceptions/not-found.exception';
+import { PublishMessage } from '../publish-message';
+import { saveUserAssetsLog } from '@main/rabbitmq/messageTypes/twelvedata.types';
 
 export type AddTransactionInterface = UseCase<
   [CreateTransactionPayload],
@@ -23,6 +25,7 @@ export class AddTransaction implements AddTransactionInterface {
     private usersAssetsRepository: UserAssetsRepository,
     private assetsRepository: AssetsRepository,
     private addAsset: AddUserAssetInterface,
+    private publishMessage: PublishMessage,
   ) {}
 
   async execute(payload: CreateTransactionPayload): Promise<TransactionDTO> {
@@ -97,6 +100,14 @@ export class AddTransaction implements AddTransactionInterface {
     userAsset.update(updateAssetPayload);
 
     await this.usersAssetsRepository.update(userAsset);
+
+    await this.publishMessage.execute({
+      type: saveUserAssetsLog,
+      content: JSON.stringify({
+        userId: payload.userId,
+        date: new Date().toISOString(),
+      }),
+    });
 
     return TransactionDTO.fromDomain(transaction);
   }

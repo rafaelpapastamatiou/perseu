@@ -27,5 +27,5 @@ services:
       - rabbitmq
     environment:
       WAIT_HOSTS: perseu-redis:6379, perseu-rabbitmq:5672
-    command: sh -c "/wait && yarn dev:docker"
+    command: sh -c "/wait && ./start-docker.sh"
       

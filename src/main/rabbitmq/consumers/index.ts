@@ -8,6 +8,7 @@ async function setup() {
   await setupRabbitMQ();
 
   await import('./twelvedata-consumer');
+  await import('./internal-consumer');
 }
 
 setup();

@@ -4,12 +4,14 @@ import { UserAssetsLog } from '@domain/entities/user-assets-log';
 export interface UserAssetsLogsRepository {
   generateId(): Promise<string>;
   find(params: FindWithAuth): Promise<UserAssetsLog[]>;
+  findByDate(
+    params: FindUserAssetsLogByDate,
+  ): Promise<UserAssetsLog | undefined>;
   findLastLog(params: FindWithAuth): Promise<UserAssetsLog | undefined>;
-  add(userAssetsLog: UserAssetsLog): Promise<void>;
+  create(userAssetsLog: UserAssetsLog): Promise<void>;
+  save(userAssetsLog: UserAssetsLog): Promise<void>;
 }
 
 export type FindUserAssetsLogByDate = FindWithAuth & {
-  month: number;
-  day: number;
-  year: number;
+  date: Date;
 };

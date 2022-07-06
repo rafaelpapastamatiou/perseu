@@ -13,7 +13,14 @@ import {
 } from '@domain/entities/user-assets-profitability-log';
 import { UseCase } from '@domain/interfaces/use-case';
 
-export type GenerateUserAssetsLogInterface = UseCase<[FindWithAuth], void>;
+export type GenerateUserAssetsLogParams = FindWithAuth & {
+  date?: Date;
+};
+
+export type GenerateUserAssetsLogInterface = UseCase<
+  [GenerateUserAssetsLogParams],
+  void
+>;
 
 export class GenerateUserAssetsLog implements GenerateUserAssetsLogInterface {
   constructor(
@@ -23,7 +30,12 @@ export class GenerateUserAssetsLog implements GenerateUserAssetsLogInterface {
     private assetsProvider: AssetsProvider,
   ) {}
 
-  async execute({ userId }: FindWithAuth): Promise<void> {
+  async execute({
+    userId,
+    date: logDate,
+  }: GenerateUserAssetsLogParams): Promise<void> {
+    const date = logDate || new Date();
+
     const userAssets = await this.userAssetsRepository.find({ userId });
 
     const userAssetPricePromises: Promise<number>[] = [];
@@ -37,20 +49,41 @@ export class GenerateUserAssetsLog implements GenerateUserAssetsLogInterface {
       );
     }
 
+    console.log(userAssets);
+
     const userAssetsPrices = await Promise.all(userAssetPricePromises);
+
+    console.log(userAssetsPrices);
 
     const userAssetsLogPayload: CreateUserAssetsLogPayload =
       userAssetsPrices.reduce(
         (acc, _, index) => ({
           ...acc,
-          total: acc.total + userAssetsPrices[index],
+          total:
+            acc.total + userAssetsPrices[index] * userAssets[index].quantity,
         }),
         {
           total: 0,
-          date: new Date(),
+          date,
           userId,
         },
       );
+
+    const userAssetsLog = await this.userAssetsLogsRepository.findByDate({
+      userId,
+      date,
+    });
+
+    const logAlreadyExists = !!userAssetsLog;
+
+    if (logAlreadyExists) {
+      await this.userAssetsLogsRepository.save({
+        ...userAssetsLog,
+        ...userAssetsLogPayload,
+      });
+
+      return;
+    }
 
     const id = await this.userAssetsLogsRepository.generateId();
 
@@ -64,7 +97,7 @@ export class GenerateUserAssetsLog implements GenerateUserAssetsLogInterface {
 
       const profitabilityLogPayload: CreateUserAssetsProfitabilityLogPayload = {
         userId,
-        date: new Date(),
+        date,
         percentage: formattedPercentage,
       };
 
@@ -79,6 +112,6 @@ export class GenerateUserAssetsLog implements GenerateUserAssetsLogInterface {
       await this.userAssetsProfitabilityLogsRepository.add(profitabilitylog);
     }
 
-    await this.userAssetsLogsRepository.add(assetsLog);
+    await this.userAssetsLogsRepository.create(assetsLog);
   }
 }

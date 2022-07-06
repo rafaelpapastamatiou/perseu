@@ -10,10 +10,14 @@ export class PublishMessage implements PublishMessageInterface {
   async execute(message: QueueMessage): Promise<PublishMessageResult> {
     await this.broker.connect();
 
+    console.log(`Sending message: ${message.type}`);
+
     const isPublished = await this.broker.publish({
       queue: this.queue,
       message: JSON.stringify(message),
     });
+
+    console.log(`Message sent! (${message.type})`);
 
     if (!isPublished) return { success: false };
 

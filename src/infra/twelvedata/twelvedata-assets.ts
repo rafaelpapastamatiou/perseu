@@ -82,7 +82,7 @@ export class TwelvedataAssets implements AssetsProvider {
 
       await this.cache.set(cacheKey, data.price);
 
-      return data.price;
+      return Number(data.price);
     } catch (err) {
       handleTwelvedataProviderError(symbol, err);
     }
@@ -111,7 +111,7 @@ export class TwelvedataAssets implements AssetsProvider {
 
       await this.cache.set(cacheKey, data.close);
 
-      return data.close;
+      return Number(data.close);
     } catch (err) {
       handleTwelvedataProviderError(symbol, err);
     }
