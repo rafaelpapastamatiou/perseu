@@ -12,24 +12,27 @@ import { internalQueue } from '../queues/internal.queue';
 const twelveDataPublishMessage = makePublishMessage(twelvedataQueue);
 const publishMessage = makePublishMessage(internalQueue);
 
-const rule = new schedule.RecurrenceRule();
+const everyDayRule = new schedule.RecurrenceRule();
+everyDayRule.hour = 0;
 
-rule.hour = 0;
+const everyHourRule = new schedule.RecurrenceRule();
+everyHourRule.minute = 0;
+
 //rule.minute = new schedule.Range(0, 59, 1);
 
-schedule.scheduleJob(rule, async () => {
+schedule.scheduleJob(everyDayRule, async () => {
   console.log('Sending message: ', twelvedataSyncExchanges);
 
   await twelveDataPublishMessage.execute({ type: twelvedataSyncExchanges });
 });
 
-schedule.scheduleJob(rule, async () => {
+schedule.scheduleJob(everyDayRule, async () => {
   console.log('Sending message: ', twelvedataSyncAssets);
 
   await twelveDataPublishMessage.execute({ type: twelvedataSyncAssets });
 });
 
-schedule.scheduleJob(rule, async () => {
+schedule.scheduleJob(everyHourRule, async () => {
   console.log('Sending message: ', saveUsersAssetsLog);
 
   await publishMessage.execute({
