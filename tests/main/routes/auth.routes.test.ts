@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { Express } from 'express';
 import mongoose, { Collection } from 'mongoose';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import {
   connectMongoMemoryServer,
