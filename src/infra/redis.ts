@@ -2,7 +2,9 @@ import { createClient } from 'redis';
 
 import { Cache } from '@application/providers/cache';
 
-const redisClient = createClient();
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+});
 
 export class Redis implements Cache {
   private client = redisClient;
